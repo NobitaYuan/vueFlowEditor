@@ -1,0 +1,23 @@
+/* 普通模式 */
+:root {
+  /* 顶部栏高度 */
+  --topbar-h: 54px;
+  /* 侧边宽度 */
+  --sidebar-w: 300px;
+  --layout-bg: #eeeeee;
+  --td-font-body-medium: var(--td-font-body-small);
+
+  --main-color: #0052d9;
+
+  /* 滚动条 */
+  --sb-thumb-color: #e5e5e5;
+  --sb-thumb-color-hover: #b2b2b2;
+  --sb-track-color: transparent;
+  --sb-size: 6px;
+}
+
+/* 黑夜模式 */
+:root.dark {
+  --layout-bg: #494848;
+  --main-color: #0d429a;
+}

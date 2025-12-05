@@ -1,0 +1,43 @@
+.vue-flow {
+  /* 连线用的点 */
+  .vue-flow__handle {
+    width: 8px;
+    height: 8px;
+    border: unset;
+    --vf-handle: var(--td-brand-color-6);
+  }
+  /* 控制 */
+  .vue-flow__resize-control {
+    /* 控制点 */
+    &.handle {
+      width: 8px;
+      height: 8px;
+      background-color: var(--td-brand-color-6);
+    }
+    /* 控制线 */
+    &.line {
+      &.top {
+        border-top-width: 2px;
+      }
+      &.bottom {
+        border-bottom-width: 2px;
+      }
+      &.left {
+        border-left-width: 2px;
+      }
+      &.right {
+        border-right-width: 2px;
+      }
+    }
+  }
+
+  .vue-flow__node-default {
+    padding: 0;
+  }
+  /* 基础节点 vue-flow__node-baseNode */
+  .vue-flow__node-baseNode {
+    &:hover {
+      box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.08);
+    }
+  }
+}
