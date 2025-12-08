@@ -1,4 +1,11 @@
 .vue-flow {
+  /* 节点 */
+  .vue-flow__node {
+    /* &.dargging {
+      z-index: 9999;
+    } */
+  }
+
   /* 连线用的点 */
   .vue-flow__handle {
     width: 8px;
@@ -12,10 +19,11 @@
     &.handle {
       width: 8px;
       height: 8px;
-      background-color: var(--td-brand-color-6);
+      background-color: var(--td-brand-color-4);
     }
     /* 控制线 */
     &.line {
+      border-color: var(--td-brand-color-4);
       &.top {
         border-top-width: 2px;
       }

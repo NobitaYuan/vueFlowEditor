@@ -14,6 +14,10 @@ interface IProps extends NodeProps {
 }
 const Props = withDefaults(defineProps<IProps>(), {
   defaultLabel: true,
+  dimensions: () => ({
+    width: 100,
+    height: 100,
+  }),
 })
 
 // const x = computed(() => `${Math.round(Props.position.x)}px`)
@@ -39,18 +43,14 @@ const isResizerShow = computed(() => {
 </script>
 
 <template>
-  <div
-    class="vue-flow__node-default"
-    :style="{
-      width: `${Props.dimensions.width}px`,
-      height: `${Props.dimensions.height}px`,
-    }"
-  >
-    <div class="mt-[10px]" v-if="defaultLabel">{{ data.name }}</div>
+  <div class="vue-flow__node-default dark">
+    <div class="mt-[10px]" v-if="defaultLabel">{{ data.name || data.label }}</div>
 
     <slot></slot>
 
-    <NodeResizer v-if="isResizerShow" :min-width="20" :min-height="20" />
+    <slot name="nodeResizer" :isResizerShow="isResizerShow">
+      <NodeResizer :isVisible="isResizerShow" :data="Props.data" :min-width="50" :min-height="50" />
+    </slot>
 
     <NodeToolbar :is-visible="data.toolbarVisible" :position="data.toolbarPosition || Position.Right">
       <div class="flex flex-col gap-1">
@@ -60,17 +60,30 @@ const isResizerShow = computed(() => {
       </div>
     </NodeToolbar>
 
-    <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Top" type="source" :position="Position.Top" />
-    <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Bottom" type="source" :position="Position.Bottom" />
-    <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Left" type="source" :position="Position.Left" />
-    <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Right" type="source" :position="Position.Right" />
+    <slot name="handle" :isHandelShow="isHandelShow">
+      <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Top" type="source" :position="Position.Top" />
+      <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Bottom" type="source" :position="Position.Bottom" />
+      <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Left" type="source" :position="Position.Left" />
+      <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Right" type="source" :position="Position.Right" />
+    </slot>
   </div>
 </template>
 <style lang="scss" scoped>
+.vue-flow__node-default {
+  width: 100%;
+  height: 100%;
+}
 .handel {
   opacity: 0;
   &.handelShow {
     opacity: 1;
   }
 }
+// .rightBottom {
+//   left: 50%;
+//   top: 50%;
+//   right: unset;
+//   bottom: unset;
+//   transform: translate(50%, 50%);
+// }
 </style>
