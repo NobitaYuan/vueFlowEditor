@@ -1,12 +1,13 @@
 import { useVueFlow } from '@vue-flow/core'
 import type { Node } from '@vue-flow/core'
-import { SidebarTreeType } from '../type'
-
-let id = 0
+import { SidebarTreeType, vueFlowEditorEmitType } from '../type'
+import { emitRetuenType } from '../emitReturnType'
+import { uniqueId } from 'lodash'
+import { groupLog } from '../utils'
 
 /**  A unique id. */
 function getId() {
-  return `DnDNode_${id++}`
+  return uniqueId('dragAddNewNode_')
 }
 
 /**
@@ -21,10 +22,10 @@ const state = {
   isDragging: ref(false),
 }
 
-export function useDragAndDrop(vueFlowInstanceId: string) {
+export function useDragAndDrop(vueFlowInstanceId: string, emit: emitRetuenType<vueFlowEditorEmitType>) {
   const { draggedData, isDragOver, isDragging } = state
 
-  const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode } = useVueFlow(vueFlowInstanceId)
+  const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode, findNode } = useVueFlow(vueFlowInstanceId)
 
   watch(isDragging, (dragging) => {
     document.body.style.userSelect = dragging ? 'none' : ''
@@ -95,7 +96,6 @@ export function useDragAndDrop(vueFlowInstanceId: string) {
       data: draggedData.value.data,
       style: draggedData.value.style,
     }
-    console.log('newNode', newNode)
     /**
      * Align node position after drop, so it's centered to the mouse
      *
@@ -107,6 +107,8 @@ export function useDragAndDrop(vueFlowInstanceId: string) {
           position: { x: node.position.x - node.dimensions.width / 2, y: node.position.y - node.dimensions.height / 4 },
         }
       })
+      emit('addNode', findNode(nodeId))
+      groupLog('addNode', findNode(nodeId))
       off()
     })
     addNodes(newNode)

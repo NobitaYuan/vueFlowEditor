@@ -10,11 +10,11 @@ const Props = withDefaults(defineProps<IProps>(), {})
 const path = computed(() => getBezierPath(Props))
 </script>
 
-<script lang="ts">
+<!-- <script lang="ts">
 export default {
   inheritAttrs: false,
 }
-</script>
+</script> -->
 
 <template>
   <!-- You can use the `BaseEdge` component to create your own custom edge more easily -->

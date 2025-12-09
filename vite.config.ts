@@ -7,6 +7,8 @@ import Components from 'unplugin-vue-components/vite'
 import { TDesignResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import dts from 'vite-plugin-dts'
+
 export default defineConfig((env: ConfigEnv) => {
   const { mode } = env
   // 环境变量
@@ -47,7 +49,15 @@ export default defineConfig((env: ConfigEnv) => {
       }),
       visualizer({
         filename: 'boundleView.html', //分析图生成的文件名
-        open: true, //如果存在本地服务端口，将在打包后自动展示
+        open: false, //如果存在本地服务端口，将在打包后自动展示
+      }),
+      dts({
+        outDir: 'dist',
+        tsconfigPath: './tsconfig.app.json',
+        exclude: ['node_modules/**'],
+        include: ['./src/package/**/*.ts', './src/package/**/*.vue'],
+        // insertTypesEntry: true,
+        // rollupTypes: true,
       }),
     ],
     resolve: {
@@ -69,13 +79,28 @@ export default defineConfig((env: ConfigEnv) => {
       },
     },
     build: {
-      /* 
-            boolean | "hidden" | "inline"
-            配置为 hidden 时，依旧会生成sourcemap文件，但是是隐藏的，需要手动指定文件的路径
-            在控制台进入该文件后，右键添加sourcemap的路径即可，
-            路径就是该文件的请求路径，然后在后缀加上.map即可
-            */
-      sourcemap: false,
+      sourcemap: true,
+      //打包后文件目录
+      outDir: 'dist',
+      //压缩
+      minify: false,
+      rollupOptions: {
+        //忽略打包vue文件
+        // external: ['vue', '@vue-flow/core', 'tdesign-vue-next', 'tdesign-icons-vue-next'],
+        external: ['vue', 'tdesign-vue-next', 'tdesign-icons-vue-next'],
+        //input: ["index.ts"],
+        output: {
+          entryFileNames: '[name].js',
+          chunkFileNames: 'chunks/[name].js',
+          assetFileNames: '[name][extname]',
+        },
+      },
+      lib: {
+        entry: './src/package/index.ts',
+        name: 'vueFlowEditor',
+        fileName: 'index',
+        formats: ['es'],
+      },
     },
   }
 })

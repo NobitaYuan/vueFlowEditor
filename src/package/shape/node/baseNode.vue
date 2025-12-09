@@ -21,6 +21,8 @@ const Props = withDefaults(defineProps<IProps>(), {
   }),
 })
 
+// console.log('Props', Props)
+
 // const x = computed(() => `${Math.round(Props.position.x)}px`)
 // const y = computed(() => `${Math.round(Props.position.y)}px`)
 

@@ -1,4 +1,4 @@
-import { ElementData, Styles } from '@vue-flow/core'
+import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge } from '@vue-flow/core'
 import { Component } from 'vue'
 
 // 自定义节点类型
@@ -30,4 +30,28 @@ export interface SidebarTreeType {
   height?: number
   style?: Styles
   children?: SidebarTreeType[]
+}
+
+/** vueFlowEditor组件参数 */
+export interface vueFlowEditorProps {
+  /** vueFlow实例id */
+  vueFlowInstanceId?: string
+  /** 侧边栏数据 */
+  sidebarData?: SidebarTreeType[]
+  /** 节点数据 */
+  nodes?: Node[]
+  /** 连线数据 */
+  edges?: Edge[]
+  /** 自定义节点 */
+  customNodes?: CustomNodeType[]
+  /** 自定义连线 */
+  customEdges?: CustomNodeType[]
+}
+
+/** vueFlowEditor 触发事件 */
+export interface vueFlowEditorEmitType {
+  addNode: [newNode: GraphNode]
+  removeNode: [node: GraphNode]
+  addEdge: [newEdge: GraphEdge]
+  removeEdge: [edge: GraphEdge]
 }

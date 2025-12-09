@@ -22,30 +22,17 @@ import baseNode from './shape/node/baseNode.vue'
 import baseEdge from './shape/edge/baseEdge.vue'
 import ClassNode from './shape/node/class.vue'
 
-//
+// 扩展逻辑
 import { useVueFlowGlobal, useDropToParent, useDragAndDrop } from './hooks'
 import { baseCustomShape } from './shape'
 import sidebar from './components/sidebar.vue'
 // import { getHelperLines } from './utils'
 // import helperLines from './components/helperLines.vue'
-import { CustomNodeType, SidebarTreeType } from './type'
+import { vueFlowEditorEmitType, vueFlowEditorProps } from './type'
+import { groupLog } from './utils'
 
-/** vueFlowEditor组件参数 */
-interface IProps {
-  /** vueFlow实例id */
-  vueFlowInstanceId?: string
-  /** 侧边栏数据 */
-  sidebarData?: SidebarTreeType[]
-  /** 节点数据 */
-  nodes?: Node[]
-  /** 连线数据 */
-  edges?: Edge[]
-  /** 自定义节点 */
-  customNodes?: CustomNodeType[]
-  /** 自定义连线 */
-  customEdges?: CustomNodeType[]
-}
-const Props = withDefaults(defineProps<IProps>(), {
+// Props
+const Props = withDefaults(defineProps<vueFlowEditorProps>(), {
   vueFlowInstanceId: undefined,
   sidebarData: () => [],
   nodes: () => [],
@@ -53,6 +40,8 @@ const Props = withDefaults(defineProps<IProps>(), {
   customNodes: () => [],
   customEdges: () => [],
 })
+
+const emit = defineEmits<vueFlowEditorEmitType>()
 
 // vueFlow实例id
 const vueFlowInstanceId = Props.vueFlowInstanceId
@@ -84,7 +73,20 @@ const customEdges = computed(() => {
 const nodes = ref<Node[]>(Props.nodes)
 const edges = ref<Edge[]>(Props.edges)
 
-const { addNodes, addEdges, onInit, onConnect, onNodeClick, onNodeMouseEnter, onNodeMouseLeave, onConnectStart, onConnectEnd } = useVueFlow(vueFlowInstanceId)
+const {
+  addNodes,
+  addEdges,
+  onInit,
+  onConnect,
+  onNodeClick,
+  onEdgeClick,
+  onNodeMouseEnter,
+  onNodeMouseLeave,
+  onConnectStart,
+  onConnectEnd,
+  onNodesChange,
+  onEdgesChange,
+} = useVueFlow(vueFlowInstanceId)
 
 const { isMouseOnNode, isConnecting } = useVueFlowGlobal()
 
@@ -111,13 +113,11 @@ function onAddNodes() {
   addNodes(Array.from({ length: 500 }, generateRandomNode))
 }
 
-onConnect((params) => {
-  console.log('onConnect', params)
-  addEdges([params])
-})
-
 onNodeClick((params) => {
   console.log('onNodeClick', params)
+})
+onEdgeClick((params) => {
+  console.log('onEdgeClick', params)
 })
 
 onNodeMouseEnter((params) => {
@@ -131,20 +131,42 @@ onConnectStart((params) => {
   console.log('onConnectStart', params)
   isConnecting.value = params
 })
+onConnect((params) => {
+  console.log('onConnect', params)
+  addEdges([params])
+})
+
 onConnectEnd((params) => {
   console.log('onConnectEnd', params)
   isConnecting.value = null
 })
 
 onInit((instance) => {
-  console.log('onInit', instance)
+  groupLog('onInit', instance)
 })
 
 // 父子级拖拽
 useDropToParent(vueFlowInstanceId)
 
 // 拖拽新增
-const { onDragOver, onDrop, onDragLeave } = useDragAndDrop(vueFlowInstanceId)
+const { onDragOver, onDrop, onDragLeave } = useDragAndDrop(vueFlowInstanceId, emit)
+
+onNodesChange((nodeChanges) => {
+  console.log('onNodesChange', nodeChanges)
+  nodeChanges.forEach((change) => {
+    if (change.type === 'dimensions') {
+    }
+  })
+})
+onEdgesChange((edgeChanges) => {
+  edgeChanges.forEach((change) => {
+    if (change.type === 'add') {
+      emit('addEdge', change.item)
+    } else if (change.type === 'remove') {
+      emit('removeEdge', change)
+    }
+  })
+})
 
 // 辅助线逻辑
 // const helperLineHorizontal = ref<number | undefined>(undefined)
@@ -168,10 +190,8 @@ const { onDragOver, onDrop, onDragLeave } = useDragAndDrop(vueFlowInstanceId)
 //   const updatedChanges = updateHelperLines(changes, nodes.value as GraphNode[])
 //   nodes.value = applyNodeChanges(updatedChanges)
 // })
-
 defineExpose({
   vueFlowInstance: useVueFlow(vueFlowInstanceId),
-  events: {},
 })
 </script>
 
