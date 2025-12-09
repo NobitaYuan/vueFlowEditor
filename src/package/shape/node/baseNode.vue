@@ -11,6 +11,7 @@ import { useVueFlowGlobal } from '../../hooks'
 interface IProps extends NodeProps {
   data: nodeDataType
   defaultLabel?: boolean
+  vueFlowInstanceId?: string
 }
 const Props = withDefaults(defineProps<IProps>(), {
   defaultLabel: true,
@@ -22,6 +23,12 @@ const Props = withDefaults(defineProps<IProps>(), {
 
 // const x = computed(() => `${Math.round(Props.position.x)}px`)
 // const y = computed(() => `${Math.round(Props.position.y)}px`)
+
+// 当前节点的样式
+// const { getNodes } = useVueFlow(Props.vueFlowInstanceId)
+// const curNodeStyle = computed(() => {
+//   return getNodes.value.find((item) => item.id === Props.id)?.style || {}
+// })
 
 const { isMouseOnNode } = useVueFlowGlobal()
 
@@ -43,13 +50,12 @@ const isResizerShow = computed(() => {
 </script>
 
 <template>
-  <div class="vue-flow__node-default dark">
-    <div class="mt-[10px]" v-if="defaultLabel">{{ data.name || data.label }}</div>
-
+  <div class="baseNode">
+    <div class="mt-[10px] text-center" v-if="defaultLabel">{{ data.name || data.label }}</div>
     <slot></slot>
 
     <slot name="nodeResizer" :isResizerShow="isResizerShow">
-      <NodeResizer :isVisible="isResizerShow" :data="Props.data" :min-width="50" :min-height="50" />
+      <NodeResizer class="resizer" :isVisible="isResizerShow" :data="Props.data" :min-width="50" :min-height="50" />
     </slot>
 
     <NodeToolbar :is-visible="data.toolbarVisible" :position="data.toolbarPosition || Position.Right">
@@ -69,9 +75,10 @@ const isResizerShow = computed(() => {
   </div>
 </template>
 <style lang="scss" scoped>
-.vue-flow__node-default {
-  width: 100%;
+.baseNode {
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 .handel {
   opacity: 0;

@@ -58,11 +58,11 @@ watch([width, height, x, y, zoom, horizontal, vertical], () => updateCanvasHelpe
 </script>
 
 <template>
-  <canvas ref="canvasRef" class="vue-flow__canvas" />
+  <canvas ref="canvasRef" class="vue-flow__helpLine__canvas" />
 </template>
 
 <style scoped>
-.vue-flow__canvas {
+.vue-flow__helpLine__canvas {
   position: absolute;
   top: 0;
   left: 0;

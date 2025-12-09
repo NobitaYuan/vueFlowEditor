@@ -1,11 +1,12 @@
 import { useVueFlow } from '@vue-flow/core'
 import type { Node } from '@vue-flow/core'
+import { SidebarTreeType } from '../type'
 
 let id = 0
 
 /**  A unique id. */
 function getId() {
-  return `dndnode_${id++}`
+  return `DnDNode_${id++}`
 }
 
 /**
@@ -15,13 +16,13 @@ const state = {
   /**
    * The type of the node being dragged.
    */
-  draggedType: ref(null),
+  draggedData: ref<SidebarTreeType>(null),
   isDragOver: ref(false),
   isDragging: ref(false),
 }
 
 export function useDragAndDrop(vueFlowInstanceId: string) {
-  const { draggedType, isDragOver, isDragging } = state
+  const { draggedData, isDragOver, isDragging } = state
 
   const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode } = useVueFlow(vueFlowInstanceId)
 
@@ -29,13 +30,15 @@ export function useDragAndDrop(vueFlowInstanceId: string) {
     document.body.style.userSelect = dragging ? 'none' : ''
   })
 
-  function onDragStart(event: DragEvent, type: any) {
+  function onDragStart(event: DragEvent, dragData: SidebarTreeType) {
+    if (dragData.type !== 'node') return
+
     if (event.dataTransfer) {
-      event.dataTransfer.setData('application/vueflow', type)
+      event.dataTransfer.setData('application/vueflow', JSON.stringify(dragData))
       event.dataTransfer.effectAllowed = 'move'
     }
 
-    draggedType.value = type
+    draggedData.value = JSON.parse(JSON.stringify(dragData))
     isDragging.value = true
 
     document.addEventListener('drop', onDragEnd)
@@ -48,13 +51,18 @@ export function useDragAndDrop(vueFlowInstanceId: string) {
    */
   function onDragOver(event: DragEvent) {
     event.preventDefault()
-
-    if (draggedType.value) {
+    if (draggedData.value) {
       isDragOver.value = true
 
       if (event.dataTransfer) {
         event.dataTransfer.dropEffect = 'move'
       }
+      // const target = event.target as HTMLElement
+      // const targetNodeId = target.getAttribute('data-id')
+      // const targetNode = getNodes.value.find((node) => node.id === targetNodeId)
+      // if (targetNode) {
+      //   targetNode.selected = true
+      // }
     }
   }
 
@@ -65,7 +73,7 @@ export function useDragAndDrop(vueFlowInstanceId: string) {
   function onDragEnd() {
     isDragging.value = false
     isDragOver.value = false
-    draggedType.value = null
+    draggedData.value = null
     document.removeEventListener('drop', onDragEnd)
   }
 
@@ -80,31 +88,32 @@ export function useDragAndDrop(vueFlowInstanceId: string) {
 
     const newNode: Node = {
       id: nodeId,
-      type: draggedType.value,
+      type: draggedData.value.shape,
       position,
-      width: 200,
-      height: 100,
-      data: { label: nodeId },
+      width: draggedData.value.width || 200,
+      height: draggedData.value.height || 100,
+      data: draggedData.value.data,
+      style: draggedData.value.style,
     }
-
+    console.log('newNode', newNode)
     /**
      * Align node position after drop, so it's centered to the mouse
      *
      * We can hook into events even in a callback, and we can remove the event listener after it's been called.
      */
     const { off } = onNodesInitialized(() => {
-      updateNode(nodeId, (node) => ({
-        position: { x: node.position.x - node.dimensions.width / 2, y: node.position.y - node.dimensions.height / 2 },
-      }))
-
+      updateNode(nodeId, (node) => {
+        return {
+          position: { x: node.position.x - node.dimensions.width / 2, y: node.position.y - node.dimensions.height / 4 },
+        }
+      })
       off()
     })
-
     addNodes(newNode)
   }
 
   return {
-    draggedType,
+    draggedType: draggedData,
     isDragOver,
     isDragging,
     onDragStart,

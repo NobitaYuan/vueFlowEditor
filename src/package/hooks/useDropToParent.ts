@@ -29,6 +29,7 @@ export const useDropToParent = (vueFlowInstanceId: string) => {
       }
     })
     if (!findedNodes.length) {
+      // NOTE: 这里待定,会影响辅助线逻辑
       addSelectedNodes([curNode])
       return
     }

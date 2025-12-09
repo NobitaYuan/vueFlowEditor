@@ -13,7 +13,8 @@ const Props = withDefaults(defineProps<IProps>(), {})
   <baseNode v-bind="Props" :defaultLabel="false">
     <div class="classNode">
       <div class="hd">《{{ Props.data.name }}》</div>
-      <div class="bd"></div>
+      <div class="bd">
+      </div>
     </div>
   </baseNode>
 </template>

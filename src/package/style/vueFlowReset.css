@@ -1,9 +1,10 @@
 .vue-flow {
-  /* 节点 */
+  /* 节点的基本样式 */
   .vue-flow__node {
-    /* &.dargging {
-      z-index: 9999;
-    } */
+    background-color: var(--td-bg-color-container);
+    color: var(--td-text-color-primary);
+    border: 1px solid var(--td-text-color-primary);
+    border-radius: 4px;
   }
 
   /* 连线用的点 */
@@ -41,6 +42,7 @@
 
   .vue-flow__node-default {
     padding: 0;
+    background: unset;
   }
   /* 基础节点 vue-flow__node-baseNode */
   .vue-flow__node-baseNode {
