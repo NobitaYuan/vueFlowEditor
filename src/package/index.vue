@@ -5,7 +5,7 @@ import '@vue-flow/core/dist/theme-default.css'
 import '@vue-flow/controls/dist/style.css'
 import '@vue-flow/minimap/dist/style.css'
 import '@vue-flow/node-resizer/dist/style.css'
-// 重置样式
+// 初始化样式
 import './style/index.css'
 
 // vueFlow
@@ -23,13 +23,10 @@ import baseEdge from './shape/edge/baseEdge.vue'
 import ClassNode from './shape/node/class.vue'
 
 // 扩展逻辑
-import { useVueFlowGlobal, useDropToParent, useDragAndDrop } from './hooks'
+import { useControl } from './hooks'
 import { baseCustomShape } from './shape'
 import sidebar from './components/sidebar.vue'
-// import { getHelperLines } from './utils'
-// import helperLines from './components/helperLines.vue'
 import { vueFlowEditorEmitType, vueFlowEditorProps } from './type'
-import { groupLog } from './utils'
 
 // Props
 const Props = withDefaults(defineProps<vueFlowEditorProps>(), {
@@ -41,7 +38,8 @@ const Props = withDefaults(defineProps<vueFlowEditorProps>(), {
   customEdges: () => [],
 })
 
-const emit = defineEmits<vueFlowEditorEmitType>()
+// emit
+const Emit = defineEmits<vueFlowEditorEmitType>()
 
 // vueFlow实例id
 const vueFlowInstanceId = Props.vueFlowInstanceId
@@ -54,9 +52,7 @@ const allCustomNodes = computed(() => {
     ...Props.customNodes,
   ]
     // 这里是处理一下name
-    .map((item) => {
-      return { ...item, name: 'node-' + item.name }
-    })
+    .map((item) => ({ ...item, name: 'node-' + item.name }))
   return baseCustomNodes
 })
 
@@ -64,31 +60,14 @@ const allCustomNodes = computed(() => {
 const customEdges = computed(() => {
   const baseCustomEdges = [{ name: baseCustomShape.baseEdge, component: markRaw(baseEdge) }, ...Props.customEdges]
     // 这里是处理一下name
-    .map((item) => {
-      return { ...item, name: 'edge-' + item.name }
-    })
+    .map((item) => ({ ...item, name: 'edge-' + item.name }))
   return baseCustomEdges
 })
 
 const nodes = ref<Node[]>(Props.nodes)
 const edges = ref<Edge[]>(Props.edges)
 
-const {
-  addNodes,
-  addEdges,
-  onInit,
-  onConnect,
-  onNodeClick,
-  onEdgeClick,
-  onNodeMouseEnter,
-  onNodeMouseLeave,
-  onConnectStart,
-  onConnectEnd,
-  onNodesChange,
-  onEdgesChange,
-} = useVueFlow(vueFlowInstanceId)
-
-const { isMouseOnNode, isConnecting } = useVueFlowGlobal()
+const { addNodes } = useVueFlow(vueFlowInstanceId)
 
 function generateRandomNode() {
   const id = Math.random().toString()
@@ -113,83 +92,9 @@ function onAddNodes() {
   addNodes(Array.from({ length: 500 }, generateRandomNode))
 }
 
-onNodeClick((params) => {
-  console.log('onNodeClick', params)
-})
-onEdgeClick((params) => {
-  console.log('onEdgeClick', params)
-})
+// 所有操作
+const { onDragOver, onDrop, onDragLeave } = useControl(vueFlowInstanceId, Emit)
 
-onNodeMouseEnter((params) => {
-  isMouseOnNode.value = params
-})
-onNodeMouseLeave(() => {
-  isMouseOnNode.value = null
-})
-
-onConnectStart((params) => {
-  console.log('onConnectStart', params)
-  isConnecting.value = params
-})
-onConnect((params) => {
-  console.log('onConnect', params)
-  addEdges([params])
-})
-
-onConnectEnd((params) => {
-  console.log('onConnectEnd', params)
-  isConnecting.value = null
-})
-
-onInit((instance) => {
-  groupLog('onInit', instance)
-})
-
-// 父子级拖拽
-useDropToParent(vueFlowInstanceId)
-
-// 拖拽新增
-const { onDragOver, onDrop, onDragLeave } = useDragAndDrop(vueFlowInstanceId, emit)
-
-onNodesChange((nodeChanges) => {
-  console.log('onNodesChange', nodeChanges)
-  nodeChanges.forEach((change) => {
-    if (change.type === 'dimensions') {
-    }
-  })
-})
-onEdgesChange((edgeChanges) => {
-  edgeChanges.forEach((change) => {
-    if (change.type === 'add') {
-      emit('addEdge', change.item)
-    } else if (change.type === 'remove') {
-      emit('removeEdge', change)
-    }
-  })
-})
-
-// 辅助线逻辑
-// const helperLineHorizontal = ref<number | undefined>(undefined)
-// const helperLineVertical = ref<number | undefined>(undefined)
-// function updateHelperLines(changes: NodeChange[], nodes: GraphNode[]) {
-//   helperLineHorizontal.value = undefined
-//   helperLineVertical.value = undefined
-//   if (changes.length === 1 && changes[0].type === 'position' && changes[0].dragging && changes[0].position) {
-//     const helperLines = getHelperLines(changes[0], nodes)
-//     // if we have a helper line, we snap the node to the helper line position
-//     // this is being done by manipulating the node position inside the change object
-//     changes[0].position.x = helperLines.snapPosition.x ?? changes[0].position.x
-//     changes[0].position.y = helperLines.snapPosition.y ?? changes[0].position.y
-//     // if helper lines are returned, we set them so that they can be displayed
-//     helperLineHorizontal.value = helperLines.horizontal
-//     helperLineVertical.value = helperLines.vertical
-//   }
-//   return changes
-// }
-// onNodesChange((changes) => {
-//   const updatedChanges = updateHelperLines(changes, nodes.value as GraphNode[])
-//   nodes.value = applyNodeChanges(updatedChanges)
-// })
 defineExpose({
   vueFlowInstance: useVueFlow(vueFlowInstanceId),
 })
