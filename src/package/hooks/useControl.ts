@@ -27,8 +27,6 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     addEdges,
     onInit,
     onConnect,
-    onNodeContextMenu,
-    onEdgeContextMenu,
     removeNodes,
     onNodeMouseEnter,
     onNodeMouseLeave,
@@ -66,18 +64,6 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
   onEdgeUpdate((params) => {
     updateEdge(params.edge, params.connection)
     emit('reconnectEdge', params)
-  })
-
-  onNodeContextMenu((params) => {
-    const { event } = params
-    event.preventDefault()
-    console.log('onNodeContextMenu', params)
-  })
-
-  onEdgeContextMenu((params) => {
-    const { event } = params
-    event.preventDefault()
-    console.log('onEdgeContextMenu', params)
   })
 
   onNodeMouseEnter((params) => {

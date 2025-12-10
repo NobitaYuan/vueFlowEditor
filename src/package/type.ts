@@ -1,4 +1,4 @@
-import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge, EdgeUpdateEvent } from '@vue-flow/core'
+import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge, EdgeUpdateEvent, NodeMouseEvent, EdgeMouseEvent } from '@vue-flow/core'
 import { Component } from 'vue'
 
 // 自定义节点和连线类型
@@ -46,6 +46,10 @@ export interface vueFlowEditorProps {
   customNodes?: CustomShapeType[]
   /** 自定义连线 */
   customEdges?: CustomShapeType[]
+
+  /** 右键事件触发 */
+  onNodeContextmenu?: (val: NodeMouseEvent, menuList: contextmenuItem[], popupShow: boolean) => void
+  onEdgeContextmenu?: (val: EdgeMouseEvent, menuList: contextmenuItem[], popupShow: boolean) => void
 }
 
 /** vueFlowEditor Emit触发事件 */
@@ -67,4 +71,10 @@ export interface vueFlowEditorEmitType {
 export interface dropInOutNodeType {
   node: GraphNode
   parentNode: GraphNode
+}
+
+/** 右键菜单项 */
+export interface contextmenuItem {
+  name: string
+  onClick: () => void
 }

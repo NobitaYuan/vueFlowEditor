@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { onClickOutside } from '@vueuse/core'
+import { contextmenuItem } from '../type'
 
 interface IProps {
   modelValue: boolean
-  menuList: {
-    name: string
-    onClick: () => void
-  }[]
+  menuList: contextmenuItem[]
   position: { x: number; y: number }
 }
 const Props = withDefaults(defineProps<IProps>(), {

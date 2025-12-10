@@ -27,6 +27,8 @@ import { useControl } from './hooks'
 import { baseCustomShape } from './shape'
 import sidebar from './components/sidebar.vue'
 import { vueFlowEditorEmitType, vueFlowEditorProps } from './type'
+import contextmenu from './components/contextmenu.vue'
+import { useContextmenu } from './hooks/useContextmenu'
 
 // Props
 const Props = withDefaults(defineProps<vueFlowEditorProps>(), {
@@ -94,6 +96,8 @@ function onAddNodes() {
 
 // 所有操作
 const { onDragOver, onDrop, onDragLeave } = useControl(vueFlowInstanceId, Emit)
+// 右键事件
+const { popupPosition, popupShow, menuList } = useContextmenu(vueFlowInstanceId, Props)
 
 defineExpose({
   vueFlowInstance: useVueFlow(vueFlowInstanceId),
@@ -131,6 +135,7 @@ defineExpose({
           <t-button @click="onAddNodes">Add a nodes</t-button>
         </Panel>
       </VueFlow>
+      <contextmenu v-model="popupShow" :position="popupPosition" :menuList="menuList" />
     </div>
   </div>
 </template>
