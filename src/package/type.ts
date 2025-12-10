@@ -1,4 +1,4 @@
-import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge } from '@vue-flow/core'
+import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge, EdgeUpdateEvent } from '@vue-flow/core'
 import { Component } from 'vue'
 
 // 自定义节点和连线类型
@@ -51,13 +51,20 @@ export interface vueFlowEditorProps {
 /** vueFlowEditor Emit触发事件 */
 export interface vueFlowEditorEmitType {
   addNode: [newNode: GraphNode]
+  removeNode: [node: GraphNode]
   moveNode: [node: GraphNode]
   resizeNode: [node: GraphNode]
-  removeNode: [node: GraphNode]
+  selectNode: [node: GraphNode]
 
-  dropIn: [node: GraphNode]
-  dropOut: [node: GraphNode]
+  dropIn: [node: dropInOutNodeType]
+  dropOut: [node: dropInOutNodeType]
 
   addEdge: [newEdge: GraphEdge]
   removeEdge: [edge: GraphEdge]
+  selectEdge: [edge: GraphEdge]
+  reconnectEdge: [edge: EdgeUpdateEvent]
+}
+export interface dropInOutNodeType {
+  node: GraphNode
+  parentNode: GraphNode
 }

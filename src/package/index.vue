@@ -106,7 +106,7 @@ defineExpose({
       <sidebar :data="Props.sidebarData" :vueFlowInstanceId="vueFlowInstanceId" />
     </div>
     <div class="vueFlowContainer" @drop="onDrop">
-      <VueFlow :id="vueFlowInstanceId" :nodes="nodes" :edges="edges" @dragover="onDragOver" @dragleave="onDragLeave">
+      <VueFlow :id="vueFlowInstanceId" :nodes="nodes" :edges="edges" @dragover="onDragOver" @dragleave="onDragLeave" edgesUpdatable>
         <!-- 自定义节点 -->
         <template v-for="item in allCustomNodes" #[item.name]="nodeProps" :key="item.name">
           <component :is="item.component" v-bind="nodeProps" :vueFlowInstanceId="vueFlowInstanceId" />

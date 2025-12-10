@@ -1,8 +1,9 @@
 import { GraphNode, useVueFlow } from '@vue-flow/core'
+import { dropInOutNodeType } from '../type'
 
 // 处理拖动节点到父节点
-export const useDropToParent = (vueFlowInstanceId: string) => {
-  const { nodes, onNodeDrag, onNodeDragStop, screenToFlowCoordinate, addSelectedNodes } = useVueFlow(vueFlowInstanceId)
+export const useDropToParent = (vueFlowInstanceId: string, afterDropIn: (node: dropInOutNodeType) => void, afterDropOut: (node: dropInOutNodeType) => void) => {
+  const { nodes, onNodeDrag, findNode, onNodeDragStop, screenToFlowCoordinate, addSelectedNodes } = useVueFlow(vueFlowInstanceId)
 
   // 当前要拖拽进入的父节点
   const curParentNode = ref<GraphNode>()
@@ -59,15 +60,29 @@ export const useDropToParent = (vueFlowInstanceId: string) => {
         x: curNode.computedPosition.x - curParentNode.value.computedPosition.x,
         y: curNode.computedPosition.y - curParentNode.value.computedPosition.y,
       }
+      if (afterDropIn && afterDropIn instanceof Function) {
+        afterDropIn({
+          node: findNode(nodeToUpdate.id),
+          parentNode: findNode(curParentNode.value.id),
+        })
+      }
     }
     // 如果没有父节点
     else {
+      // 原来的父级
+      const beforeParent = nodeToUpdate.parentNode
       // 如果本来就有父节点的，则删除
       if (nodeToUpdate.parentNode) {
         nodeToUpdate.parentNode = undefined
         nodeToUpdate.position = {
           x: curNode.computedPosition.x,
           y: curNode.computedPosition.y,
+        }
+        if (afterDropOut && afterDropOut instanceof Function) {
+          afterDropOut({
+            node: findNode(nodeToUpdate.id),
+            parentNode: findNode(beforeParent),
+          })
         }
       }
     }

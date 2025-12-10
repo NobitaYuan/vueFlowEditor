@@ -1,9 +1,7 @@
 import { useVueFlow } from '@vue-flow/core'
-import type { Node } from '@vue-flow/core'
-import { SidebarTreeType, vueFlowEditorEmitType } from '../type'
-import { emitRetuenType } from '../emitReturnType'
+import type { GraphNode, Node } from '@vue-flow/core'
+import { SidebarTreeType } from '../type'
 import { uniqueId } from 'lodash'
-import { groupLog } from '../utils'
 
 /**  A unique id. */
 function getId() {
@@ -22,7 +20,7 @@ const state = {
   isDragging: ref(false),
 }
 
-export function useDragAndDrop(vueFlowInstanceId: string, emit: emitRetuenType<vueFlowEditorEmitType>) {
+export function useDragAndDrop(vueFlowInstanceId: string, afterAdd: (node: GraphNode) => void) {
   const { draggedData, isDragOver, isDragging } = state
 
   const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode, findNode } = useVueFlow(vueFlowInstanceId)
@@ -107,15 +105,16 @@ export function useDragAndDrop(vueFlowInstanceId: string, emit: emitRetuenType<v
           position: { x: node.position.x - node.dimensions.width / 2, y: node.position.y - node.dimensions.height / 4 },
         }
       })
-      emit('addNode', findNode(nodeId))
-      groupLog('addNode', findNode(nodeId))
+      if (afterAdd && afterAdd instanceof Function) {
+        afterAdd(findNode(nodeId))
+      }
       off()
     })
     addNodes(newNode)
   }
 
   return {
-    draggedType: draggedData,
+    draggedData,
     isDragOver,
     isDragging,
     onDragStart,
