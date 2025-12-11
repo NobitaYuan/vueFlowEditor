@@ -17,17 +17,17 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     if (!isInit.value) return
     // @ts-ignore
     Emit(type, params)
-    debounceGroupLog('emit：' + type, params)
+    if (type === 'moveNode' || type === 'resizeNode') {
+      debounceGroupLog('emit：' + type, params)
+    } else {
+      groupLog('emit：' + type, params)
+    }
   }
-
-  // 一些全局的状态
-  const { isMouseOnNode, isConnecting } = useVueFlowGlobal()
 
   const {
     addEdges,
     onInit,
     onConnect,
-    removeNodes,
     onNodeMouseEnter,
     onNodeMouseLeave,
     onConnectStart,
@@ -39,6 +39,21 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     findNode,
     findEdge,
   } = useVueFlow(vueFlowInstanceId)
+
+  // 一些全局的状态
+  const { isMouseOnNode, isConnecting } = useVueFlowGlobal()
+  onNodeMouseEnter((params) => {
+    isMouseOnNode.value = params
+  })
+  onNodeMouseLeave(() => {
+    isMouseOnNode.value = null
+  })
+  onConnectStart((params) => {
+    isConnecting.value = params
+  })
+  onConnectEnd(() => {
+    isConnecting.value = null
+  })
 
   // 开启 父子级拖拽 功能
   useDropToParent(
@@ -66,19 +81,6 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     emit('reconnectEdge', params)
   })
 
-  onNodeMouseEnter((params) => {
-    isMouseOnNode.value = params
-  })
-  onNodeMouseLeave(() => {
-    isMouseOnNode.value = null
-  })
-  onConnectStart((params) => {
-    isConnecting.value = params
-  })
-  onConnectEnd(() => {
-    isConnecting.value = null
-  })
-
   // 节点变化
   onNodesChange((nodeChanges: NodeChange[]) => {
     nodeChanges.forEach((change) => {
@@ -87,7 +89,7 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
       } else if (change.type === 'position') {
         emit('moveNode', findNode(change.id))
       } else if (change.type === 'remove') {
-        emit('removeNode', findNode(change.id))
+        // emit('removeNode', findNode(change.id))
       } else if (change.type === 'select') {
         emit('selectNode', findNode(change.id))
       }
@@ -100,7 +102,7 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
       if (change.type === 'add') {
         emit('addEdge', findEdge(change.item.id))
       } else if (change.type === 'remove') {
-        emit('removeEdge', findEdge(change.id))
+        // emit('removeEdge', findEdge(change.id))
       } else if (change.type === 'select') {
         emit('selectEdge', findEdge(change.id))
       }

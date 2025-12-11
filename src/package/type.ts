@@ -47,9 +47,10 @@ export interface vueFlowEditorProps {
   /** 自定义连线 */
   customEdges?: CustomShapeType[]
 
-  /** 右键事件触发 */
-  onNodeContextmenu?: (val: NodeMouseEvent, menuList: contextmenuItem[], popupShow: boolean) => void
-  onEdgeContextmenu?: (val: EdgeMouseEvent, menuList: contextmenuItem[], popupShow: boolean) => void
+  /** 右键节点事件触发 */
+  onNodeContextmenu?: (val: NodeMouseEvent, menuList: contextmenuItem[], popupShow: boolean) => boolean
+  /** 右键连线事件触发 */
+  onEdgeContextmenu?: (val: EdgeMouseEvent, menuList: contextmenuItem[], popupShow: boolean) => boolean
 }
 
 /** vueFlowEditor Emit触发事件 */

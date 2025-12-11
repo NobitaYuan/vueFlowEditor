@@ -97,7 +97,7 @@ function onAddNodes() {
 // 所有操作
 const { onDragOver, onDrop, onDragLeave } = useControl(vueFlowInstanceId, Emit)
 // 右键事件
-const { popupPosition, popupShow, menuList } = useContextmenu(vueFlowInstanceId, Props)
+const { popupPosition, popupShow, menuList } = useContextmenu(vueFlowInstanceId, Props, Emit)
 
 defineExpose({
   vueFlowInstance: useVueFlow(vueFlowInstanceId),

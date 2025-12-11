@@ -1,7 +1,9 @@
-import { GraphEdge, useVueFlow } from '@vue-flow/core'
-import { contextmenuItem, vueFlowEditorProps } from '../type'
+import { useVueFlow } from '@vue-flow/core'
+import { contextmenuItem, vueFlowEditorEmitType, vueFlowEditorProps } from '../type'
+import { emitRetuenType } from '../emitReturnType'
+import { groupLog } from '../utils'
 
-export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorProps) => {
+export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorProps, Emit: emitRetuenType<vueFlowEditorEmitType>) => {
   // 是否右键菜单
   const popupShow = ref(false)
   // 右键菜单的位置
@@ -9,24 +11,35 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
   // 菜单的列表
   const menuList = ref<contextmenuItem[]>([])
 
-  const { onNodeContextMenu, onEdgeContextMenu, removeNodes } = useVueFlow(vueFlowInstanceId)
+  const { onNodeContextMenu, onEdgeContextMenu, removeNodes, removeEdges } = useVueFlow(vueFlowInstanceId)
+
+  // 这里用于log一下事件
+  const emit: emitRetuenType<vueFlowEditorEmitType> = (type, params) => {
+    // @ts-ignore
+    Emit(type, params)
+    groupLog('emit：' + type, params)
+  }
 
   onNodeContextMenu((params) => {
     const { node } = params
     const event = params.event as PointerEvent
     event.preventDefault()
-    console.log('event', event)
     popupPosition.value = { x: event.clientX, y: event.clientY }
     menuList.value = [
       {
         name: '删除',
         onClick: () => {
-          console.log('node删除', node)
+          removeNodes([node], false, false)
+          emit('removeNode', node)
         },
       },
     ]
+    let show
     if (Props.onNodeContextmenu) {
-      Props.onNodeContextmenu(params, menuList.value, popupShow.value)
+      show = Props.onNodeContextmenu(params, menuList.value, popupShow.value)
+    }
+    if (show === false) {
+      return
     }
     popupShow.value = true
   })
@@ -40,12 +53,17 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
       {
         name: '删除',
         onClick: () => {
-          console.log('edge删除', edge)
+          removeEdges([edge])
+          emit('removeEdge', edge)
         },
       },
     ]
+    let show
     if (Props.onEdgeContextmenu) {
-      Props.onEdgeContextmenu(params, menuList.value, popupShow.value)
+      show = Props.onEdgeContextmenu(params, menuList.value, popupShow.value)
+    }
+    if (show === false) {
+      return
     }
     popupShow.value = true
   })
