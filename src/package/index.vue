@@ -10,7 +10,6 @@ import './style/index.css'
 
 // vueFlow
 import { VueFlow, Panel, PanelPosition, useVueFlow } from '@vue-flow/core'
-import type { Node, Edge } from '@vue-flow/core'
 
 // vueFlow组件
 import { Background } from '@vue-flow/background'
@@ -66,8 +65,8 @@ const customEdges = computed(() => {
   return baseCustomEdges
 })
 
-const nodes = ref<Node[]>(Props.nodes)
-const edges = ref<Edge[]>(Props.edges)
+const nodes = computed(() => Props.nodes)
+const edges = computed(() => Props.edges)
 
 const { addNodes } = useVueFlow(vueFlowInstanceId)
 
@@ -130,10 +129,12 @@ defineExpose({
         <!-- <helperLines :horizontal="helperLineHorizontal" :vertical="helperLineVertical" :vueFlowInstanceId="vueFlowInstanceId" /> -->
 
         <!--  -->
-        <Panel :position="PanelPosition.BottomRight">
-          <t-button @click="onAddNode">Add a node</t-button>
-          <t-button @click="onAddNodes">Add a nodes</t-button>
-        </Panel>
+        <slot name="default">
+          <Panel :position="PanelPosition.BottomRight">
+            <t-button @click="onAddNode">Add a node</t-button>
+            <t-button @click="onAddNodes">Add a nodes</t-button>
+          </Panel>
+        </slot>
       </VueFlow>
       <contextmenu v-model="popupShow" :position="popupPosition" :menuList="menuList" />
     </div>
@@ -148,7 +149,7 @@ defineExpose({
   gap: 12px;
   .sidebarContainer {
     background-color: var(--td-bg-color-container);
-    width: 240px;
+    width: 200px;
   }
   .vueFlowContainer {
     height: 100%;

@@ -5,23 +5,16 @@ import { useDropToParent } from './useDropToParent'
 import { groupLog } from '../utils'
 import { useVueFlowGlobal } from './useGlobal'
 import { useDragAndDrop } from './useDnD'
-import { debounce } from 'lodash'
 
 /** 一些事件的控制全部统一放置在这里 */
 export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFlowEditorEmitType>) => {
   const isInit = ref(false)
-  const debounceGroupLog = debounce(groupLog, 300)
 
   // 这里用于log一下事件
   const emit: emitRetuenType<vueFlowEditorEmitType> = (type, params) => {
     if (!isInit.value) return
     // @ts-ignore
     Emit(type, params)
-    if (type === 'moveNode' || type === 'resizeNode') {
-      debounceGroupLog('emit：' + type, params)
-    } else {
-      groupLog('emit：' + type, params)
-    }
   }
 
   const {
@@ -38,10 +31,11 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     updateEdge,
     findNode,
     findEdge,
+    onNodeDoubleClick,
   } = useVueFlow(vueFlowInstanceId)
 
   // 一些全局的状态
-  const { isMouseOnNode, isConnecting } = useVueFlowGlobal()
+  const { isMouseOnNode, isConnecting, isDoubleClick } = useVueFlowGlobal()
   onNodeMouseEnter((params) => {
     isMouseOnNode.value = params
   })
@@ -53,6 +47,9 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
   })
   onConnectEnd(() => {
     isConnecting.value = null
+  })
+  onNodeDoubleClick((params) => {
+    isDoubleClick.value = params
   })
 
   // 开启 父子级拖拽 功能
@@ -77,13 +74,14 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
   })
   // 开启重连线
   onEdgeUpdate((params) => {
-    updateEdge(params.edge, params.connection)
-    emit('reconnectEdge', params)
+    const edge = updateEdge(params.edge, params.connection, false)
+    emit('reconnectEdge', edge)
   })
 
   // 节点变化
   onNodesChange((nodeChanges: NodeChange[]) => {
     nodeChanges.forEach((change) => {
+      console.log('change', change)
       if (change.type === 'dimensions') {
         emit('resizeNode', findNode(change.id))
       } else if (change.type === 'position') {
@@ -92,6 +90,11 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
         // emit('removeNode', findNode(change.id))
       } else if (change.type === 'select') {
         emit('selectNode', findNode(change.id))
+      }
+      // @ts-ignore 自定义的重命名事件
+      else if (change.type === 'renameNode') {
+        // @ts-ignore
+        emit('renameNode', change.node)
       }
     })
   })

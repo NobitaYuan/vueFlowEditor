@@ -2,6 +2,7 @@
 import { NodeProps } from '@vue-flow/core'
 import baseNode from './baseNode.vue'
 import { nodeDataType } from '../../type'
+import nameEditor from './components/nameEditor.vue'
 
 interface IProps extends NodeProps {
   data: nodeDataType
@@ -12,9 +13,8 @@ const Props = withDefaults(defineProps<IProps>(), {})
 <template>
   <baseNode v-bind="Props" :defaultLabel="false">
     <div class="classNode">
-      <div class="hd">《{{ Props.data.name }}》</div>
-      <div class="bd">
-      </div>
+      <div class="hd">《<nameEditor v-bind="Props" />》</div>
+      <div class="bd"></div>
     </div>
   </baseNode>
 </template>

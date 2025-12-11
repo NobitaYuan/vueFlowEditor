@@ -1,7 +1,6 @@
 import { useVueFlow } from '@vue-flow/core'
 import { contextmenuItem, vueFlowEditorEmitType, vueFlowEditorProps } from '../type'
 import { emitRetuenType } from '../emitReturnType'
-import { groupLog } from '../utils'
 
 export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorProps, Emit: emitRetuenType<vueFlowEditorEmitType>) => {
   // 是否右键菜单
@@ -17,7 +16,6 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
   const emit: emitRetuenType<vueFlowEditorEmitType> = (type, params) => {
     // @ts-ignore
     Emit(type, params)
-    groupLog('emit：' + type, params)
   }
 
   onNodeContextMenu((params) => {
@@ -27,7 +25,7 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
     popupPosition.value = { x: event.clientX, y: event.clientY }
     menuList.value = [
       {
-        name: '删除',
+        name: '删除节点',
         onClick: () => {
           removeNodes([node], false, false)
           emit('removeNode', node)
@@ -51,7 +49,7 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
     popupPosition.value = { x: event.clientX, y: event.clientY }
     menuList.value = [
       {
-        name: '删除',
+        name: '删除连线',
         onClick: () => {
           removeEdges([edge])
           emit('removeEdge', edge)

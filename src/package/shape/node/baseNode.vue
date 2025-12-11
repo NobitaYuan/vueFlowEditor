@@ -3,10 +3,11 @@ import { computed } from 'vue'
 import { Position, Handle } from '@vue-flow/core'
 import type { NodeProps } from '@vue-flow/core'
 
-import { NodeToolbar } from '@vue-flow/node-toolbar'
+// import { NodeToolbar } from '@vue-flow/node-toolbar'
 import { NodeResizer } from '@vue-flow/node-resizer'
 import { nodeDataType } from '../../type'
 import { useVueFlowGlobal } from '../../hooks'
+import nameEditor from './components/nameEditor.vue'
 
 interface IProps extends NodeProps {
   data: nodeDataType
@@ -53,20 +54,22 @@ const isResizerShow = computed(() => {
 
 <template>
   <div class="baseNode">
-    <div class="mt-[10px] text-center" v-if="defaultLabel">{{ data.name || data.label }}</div>
+    <div class="mt-[10px] text-center" v-if="defaultLabel">
+      <nameEditor v-bind="Props" />
+    </div>
     <slot></slot>
 
     <slot name="nodeResizer" :isResizerShow="isResizerShow">
       <NodeResizer class="resizer" :isVisible="isResizerShow" :data="Props.data" :min-width="50" :min-height="50" />
     </slot>
 
-    <NodeToolbar :is-visible="data.toolbarVisible" :position="data.toolbarPosition || Position.Right">
+    <!-- <NodeToolbar :is-visible="data.toolbarVisible" :position="data.toolbarPosition || Position.Right">
       <div class="flex flex-col gap-1">
         <t-button>delete</t-button>
         <t-button>copy</t-button>
         <t-button>expand</t-button>
       </div>
-    </NodeToolbar>
+    </NodeToolbar> -->
 
     <slot name="handle" :isHandelShow="isHandelShow">
       <Handle class="handel" :class="{ handelShow: isHandelShow }" :id="Position.Top" type="source" :position="Position.Top" />
@@ -80,7 +83,6 @@ const isResizerShow = computed(() => {
 .baseNode {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 .handel {
   opacity: 0;

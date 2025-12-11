@@ -4,7 +4,9 @@ import { NodeMouseEvent, OnConnectStartParams } from '@vue-flow/core'
 const isConnecting = ref<{ event?: MouseEvent | TouchEvent } & OnConnectStartParams>(null)
 // 鼠标是否在节点上
 const isMouseOnNode = ref<NodeMouseEvent>(null)
+// 是否双击了
+const isDoubleClick = ref<NodeMouseEvent>(null)
 
 export const useVueFlowGlobal = () => {
-  return { isConnecting, isMouseOnNode }
+  return { isConnecting, isMouseOnNode, isDoubleClick }
 }
