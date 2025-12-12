@@ -95,7 +95,7 @@ const inputOk = async () => {
   })
   await nextTick()
   // @ts-ignore 自定义名称修改事件
-  emits.nodesChange([{ type: 'renameNode', node: Props }])
+  emits.nodesChange([{ type: 'renameNode', node: curNode.value }])
   isDoubleClick.value = null
 }
 const inputNo = () => {

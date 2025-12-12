@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vueFlowEditor, baseCustomShape, SidebarTreeType } from '@/package/index'
-import type { Node, Edge } from '@/package/index'
+import type { Node, Edge, GraphNode } from '@/package/index'
 
 const sidebarData = ref<SidebarTreeType[]>([
   {
@@ -390,11 +390,15 @@ const edges = ref<Edge[]>([
 ])
 
 const vueFlowEditorRef = ref<InstanceType<typeof vueFlowEditor>>()
+
+const renameNode = (node: GraphNode) => {
+  console.log('renameNode', node)
+}
 </script>
 
 <template>
   <div class="vueFlowPlay">
-    <vueFlowEditor ref="vueFlowEditorRef" :sidebarData="sidebarData" :nodes="nodes" :edges="edges" />
+    <vueFlowEditor ref="vueFlowEditorRef" @rename-node="renameNode" :sidebarData="sidebarData" :nodes="nodes" :edges="edges" />
   </div>
 </template>
 
