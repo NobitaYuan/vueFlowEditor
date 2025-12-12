@@ -81,7 +81,6 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
   // 节点变化
   onNodesChange((nodeChanges: NodeChange[]) => {
     nodeChanges.forEach((change) => {
-      console.log('change', change)
       if (change.type === 'dimensions') {
         emit('resizeNode', findNode(change.id))
       } else if (change.type === 'position') {

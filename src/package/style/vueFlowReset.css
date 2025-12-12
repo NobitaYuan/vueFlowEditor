@@ -1,10 +1,10 @@
 .vue-flow {
   /* 节点的基本样式 */
   .vue-flow__node {
-    background-color: var(--td-bg-color-container);
+    /* background-color: var(--td-bg-color-container); */
     color: var(--td-text-color-primary);
-    border: 1px solid var(--td-text-color-primary);
-    border-radius: 4px;
+    /* border: 1px solid var(--td-text-color-primary); */
+    /* border-radius: 4px; */
   }
 
   /* 连线用的点 */

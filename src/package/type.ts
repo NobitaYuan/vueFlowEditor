@@ -20,7 +20,7 @@ export interface SidebarTreeType {
   /** 图标 */
   icon?: string
   /** 添加的元素的形状 */
-  shape: string
+  shape?: string
   /** 节点还是连线 */
   type: 'node' | 'edge'
   /** 节点的业务数据 */

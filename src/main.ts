@@ -4,6 +4,8 @@ import './assets/style/main.css'
 import 'tdesign-vue-next/es/style/index.css'
 // pinia持久化插件
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+// svgIcon
+import 'virtual:svg-icons-register'
 
 // 权限控制
 // import '@/router/permission'

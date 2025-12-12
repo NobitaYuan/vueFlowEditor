@@ -20,7 +20,7 @@ const state = {
   isDragging: ref(false),
 }
 
-export function useDragAndDrop(vueFlowInstanceId: string, afterAdd: (node: GraphNode) => void) {
+export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: GraphNode) => void) {
   const { draggedData, isDragOver, isDragging } = state
 
   const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode, findNode } = useVueFlow(vueFlowInstanceId)
@@ -78,6 +78,7 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd: (node: Graph
 
   /** Handles the drop event. */
   function onDrop(event: DragEvent) {
+    if (!draggedData.value) return
     const position = screenToFlowCoordinate({
       x: event.clientX,
       y: event.clientY,

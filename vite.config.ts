@@ -1,3 +1,4 @@
+import path from 'path'
 import { ConfigEnv, defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -8,6 +9,7 @@ import { TDesignResolver } from 'unplugin-vue-components/resolvers'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineConfig((env: ConfigEnv) => {
   const { mode } = env
@@ -58,6 +60,20 @@ export default defineConfig((env: ConfigEnv) => {
         include: ['./src/package/**/*.ts', './src/package/**/*.vue'],
         // insertTypesEntry: true,
         // rollupTypes: true,
+      }),
+      createSvgIconsPlugin({
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')], // 图标文件夹
+        symbolId: 'icon-[name]',
+        svgoOptions: {
+          plugins: [
+            {
+              name: 'removeAttrs',
+              params: {
+                attrs: 'fill', // 移除所有的 fill 属性
+              },
+            },
+          ],
+        },
       }),
     ],
     resolve: {

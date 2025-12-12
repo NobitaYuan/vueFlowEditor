@@ -13,7 +13,13 @@ const Props = withDefaults(defineProps<IProps>(), {})
 <template>
   <baseNode v-bind="Props" :defaultLabel="false">
     <div class="classNode">
-      <div class="hd">《<nameEditor v-bind="Props" />》</div>
+      <div class="hd">
+        《
+        <div>
+          <nameEditor v-bind="Props" />
+        </div>
+        》
+      </div>
       <div class="bd"></div>
     </div>
   </baseNode>
@@ -24,6 +30,10 @@ const Props = withDefaults(defineProps<IProps>(), {})
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--td-bg-color-container);
+  color: var(--td-text-color-primary);
+  border: 1px solid var(--td-text-color-primary);
+  border-radius: 4px;
   .hd {
     border-bottom: 1px solid #ccc;
     padding: 10px;
