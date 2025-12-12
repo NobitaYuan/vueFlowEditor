@@ -7,7 +7,6 @@ import type { NodeProps } from '@vue-flow/core'
 import { NodeResizer } from '@vue-flow/node-resizer'
 import { nodeDataType } from '../../type'
 import { useVueFlowGlobal } from '../../hooks'
-import nameEditor from './components/nameEditor.vue'
 
 interface IProps extends NodeProps {
   data: nodeDataType

@@ -7,11 +7,16 @@ interface IProps {
 }
 const Props = withDefaults(defineProps<IProps>(), {})
 
-const { flowToScreenCoordinate } = useVueFlow(Props.vueFlowInstanceId)
+const { flowToScreenCoordinate, getTransform, connectionRadius } = useVueFlow(Props.vueFlowInstanceId)
 
 const { isDoubleClick } = useVueFlowGlobal()
 
 const { updateNodeData, emits } = useVueFlow(Props.vueFlowInstanceId)
+
+// 窗体的宽度
+const dialogWidth = ref(200)
+// 窗体的高度
+const dialogHeight = ref(120)
 
 // 是否显示
 const isShow = computed(() => {
@@ -31,11 +36,27 @@ const curPosition = computed(() => {
       x: 99999,
       y: 99999,
     }
+
+  // 获取计算后的位置
   const transFormedPosition = flowToScreenCoordinate(curNode.value.computedPosition)
-  return {
-    x: transFormedPosition.x + Number(curNode.value.width) + 4,
-    y: transFormedPosition.y,
+
+  const gap = 4
+
+  let x = transFormedPosition.x + Number(curNode.value.width) + gap
+  let y = transFormedPosition.y
+
+  // 获取当前视口的尺寸
+  const { clientWidth, clientHeight } = document.documentElement
+  // 如果当前节点的位置加上当前节点的宽度加上gap大于视口的宽度，那么就将当前节点的位置设置为视口宽度减去节点宽度
+  if (x + dialogWidth.value > clientWidth) {
+    x = clientWidth - dialogWidth.value - gap
   }
+  // 如果当前节点的位置加上当前节点的高度加上gap大于视口的高度，那么就将当前节点的位置设置为视口高度减去节点高度
+  if (y + dialogHeight.value > clientHeight) {
+    y = clientHeight - dialogHeight.value - gap
+  }
+
+  return { x, y }
 })
 
 let beforeName = ''
@@ -74,6 +95,8 @@ watch(isDoubleClick, async (val) => {
     <div
       class="nameEditor"
       :style="{
+        width: dialogWidth + 'px',
+        height: dialogHeight + 'px',
         left: curPosition.x + 'px',
         top: curPosition.y + 'px',
       }"
@@ -115,11 +138,10 @@ watch(isDoubleClick, async (val) => {
 }
 .nameEditor {
   position: absolute;
-  width: 200px;
 
   .editName {
     width: 100%;
-    min-height: 120px;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
