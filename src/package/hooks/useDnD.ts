@@ -18,12 +18,13 @@ const state = {
   draggedData: ref<SidebarTreeType>(null),
   isDragOver: ref(false),
   isDragging: ref(false),
+  curParentNode: ref<GraphNode>(),
 }
 
 export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: GraphNode) => void) {
   const { draggedData, isDragOver, isDragging } = state
 
-  const { addNodes, screenToFlowCoordinate, onNodesInitialized, updateNode, findNode } = useVueFlow(vueFlowInstanceId)
+  const { nodes, addNodes, screenToFlowCoordinate, addSelectedNodes, onNodesInitialized, updateNode, findNode } = useVueFlow(vueFlowInstanceId)
 
   watch(isDragging, (dragging) => {
     document.body.style.userSelect = dragging ? 'none' : ''
@@ -31,6 +32,7 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
 
   function onDragStart(event: DragEvent, dragData: SidebarTreeType) {
     if (dragData.type !== 'node') return
+    state.curParentNode.value = undefined
 
     if (event.dataTransfer) {
       event.dataTransfer.setData('application/vueflow', JSON.stringify(dragData))
@@ -55,13 +57,14 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
 
       if (event.dataTransfer) {
         event.dataTransfer.dropEffect = 'move'
+        // 聚焦当前是否有父节点
+        state.curParentNode.value = findCurPositonNode(event, nodes.value)
+        if (state.curParentNode.value) {
+          addSelectedNodes([state.curParentNode.value])
+        } else {
+          addSelectedNodes([])
+        }
       }
-      // const target = event.target as HTMLElement
-      // const targetNodeId = target.getAttribute('data-id')
-      // const targetNode = getNodes.value.find((node) => node.id === targetNodeId)
-      // if (targetNode) {
-      //   targetNode.selected = true
-      // }
     }
   }
 
@@ -95,6 +98,14 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
       data: draggedData.value.data,
       style: draggedData.value.style,
     }
+    // 判断是否有父节点
+    if (state.curParentNode.value) {
+      newNode.parentNode = state.curParentNode.value.id
+      newNode.position = {
+        x: newNode.position.x - state.curParentNode.value.computedPosition.x,
+        y: newNode.position.y - state.curParentNode.value.computedPosition.y,
+      }
+    }
     /**
      * Align node position after drop, so it's centered to the mouse
      *
@@ -112,6 +123,31 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
       off()
     })
     addNodes(newNode)
+  }
+
+  // 根据鼠标的位置去寻找节点
+  const findCurPositonNode = (event: DragEvent, allNodes: GraphNode[]) => {
+    // 鼠标的位置
+    const pointerPosition = screenToFlowCoordinate({
+      x: event.clientX,
+      y: event.clientY,
+    })
+    // 根据位置去寻找节点
+    const findedNodes = allNodes.filter((node) => {
+      const xRange = [node.computedPosition.x, node.computedPosition.x + Number(node.dimensions.width)]
+      const yRange = [node.computedPosition.y, node.computedPosition.y + Number(node.dimensions.height)]
+      if (pointerPosition.x >= xRange[0] && pointerPosition.x <= xRange[1] && pointerPosition.y >= yRange[0] && pointerPosition.y <= yRange[1]) {
+        return node
+      }
+    })
+    if (!findedNodes.length) {
+      return undefined
+    }
+    // z轴最大的
+    const maxZIndexNode = findedNodes.reduce((pre, cur) => {
+      return pre.zIndex > cur.zIndex ? pre : cur
+    })
+    return maxZIndexNode
   }
 
   return {

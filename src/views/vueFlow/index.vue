@@ -9,7 +9,6 @@ const sidebarData = ref<SidebarTreeType[]>([
     label: '开始事件',
     type: 'node',
     icon: 'bz',
-    shape: baseCustomShape.baseNode,
     data: {
       name: '节点0',
     },
@@ -19,7 +18,7 @@ const sidebarData = ref<SidebarTreeType[]>([
         label: '开始事件',
         icon: 'bz',
         type: 'node',
-        shape: baseCustomShape.baseNode,
+        shape: baseCustomShape.class,
         data: {
           name: '开始事件',
         },
@@ -29,7 +28,7 @@ const sidebarData = ref<SidebarTreeType[]>([
         id: '0-2',
         label: '信号开始事件',
         type: 'node',
-        shape: baseCustomShape.baseNode,
+        shape: baseCustomShape.class,
         data: {
           name: '信号开始事件',
         },

@@ -1,4 +1,4 @@
-import { GraphNode, useVueFlow } from '@vue-flow/core'
+import { GraphNode, NodeDragEvent, useVueFlow } from '@vue-flow/core'
 import { dropInOutNodeType } from '../type'
 
 // 处理拖动节点到父节点
@@ -8,8 +8,8 @@ export const useDropToParent = (vueFlowInstanceId: string, afterDropIn: (node: d
   // 当前要拖拽进入的父节点
   const curParentNode = ref<GraphNode>()
 
-  //  拖拽开始
-  onNodeDrag((params) => {
+  // 根据鼠标的位置去寻找节点
+  const findCurPositonNode = (params: NodeDragEvent) => {
     const { event, node: curNode } = params
     if (!curNode) return
     curParentNode.value = undefined
@@ -39,7 +39,12 @@ export const useDropToParent = (vueFlowInstanceId: string, afterDropIn: (node: d
       return pre.zIndex > cur.zIndex ? pre : cur
     })
     curParentNode.value = maxZIndexNode
-    addSelectedNodes([curParentNode.value, curNode])
+    addSelectedNodes([curParentNode.value, params.node])
+  }
+
+  //  拖拽开始
+  onNodeDrag((params) => {
+    findCurPositonNode(params)
   })
 
   //  拖拽结束
