@@ -16,7 +16,7 @@ const { onDragStart } = useDragAndDrop(Props.vueFlowInstanceId)
   <div class="sidebar">
     <t-tree :data="Props.data" expand-on-click-node activable line hover expandAll :keys="{ label: 'label', value: 'id' }">
       <template #icon="{ node }">
-        <svgIcon v-if="node?.data?.icon" :name="node.data.icon" />
+        <svgIcon v-if="node?.data?.icon" :name="node.data.icon" :color="node.data?.iconColor || ''" />
       </template>
       <template #label="{ node }">
         <div

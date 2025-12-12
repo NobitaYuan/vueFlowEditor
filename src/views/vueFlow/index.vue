@@ -16,6 +16,7 @@ const sidebarData = ref<SidebarTreeType[]>([
         id: '0-1',
         label: '开始事件',
         icon: 'bz',
+        iconColor: '#10b981',
         type: 'node',
         shape: baseCustomShape.class,
         data: {

@@ -19,6 +19,7 @@ export interface SidebarTreeType {
   label: string
   /** 图标 */
   icon?: string
+  iconColor?: string
   /** 添加的元素的形状 */
   shape?: string
   /** 节点还是连线 */
