@@ -107,7 +107,7 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
         y: newNode.position.y - state.curParentNode.value.computedPosition.y,
       }
     }
-    console.log('newNode', newNode)
+    // console.log('newNode', newNode)
     /**
      * Align node position after drop, so it's centered to the mouse
      *

@@ -66,12 +66,12 @@ export default defineConfig((env: ConfigEnv) => {
         symbolId: 'icon-[name]',
         svgoOptions: {
           plugins: [
-            {
-              name: 'removeAttrs',
-              params: {
-                attrs: 'fill', // 移除所有的 fill 属性
-              },
-            },
+            // {
+            //   name: 'removeAttrs',
+            //   params: {
+            //     attrs: 'fill', // 移除所有的 fill 属性
+            //   },
+            // },
           ],
         },
       }),
