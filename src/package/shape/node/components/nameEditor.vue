@@ -7,7 +7,7 @@ interface IProps {
 }
 const Props = withDefaults(defineProps<IProps>(), {})
 
-const { flowToScreenCoordinate, getTransform, connectionRadius } = useVueFlow(Props.vueFlowInstanceId)
+const { flowToScreenCoordinate } = useVueFlow(Props.vueFlowInstanceId)
 
 const { isDoubleClick } = useVueFlowGlobal()
 
@@ -29,6 +29,9 @@ const curNode = computed(() => {
   return isDoubleClick.value?.node
 })
 
+// 打开节点时的位置
+const whenOpenPositon = ref({ x: 0, y: 0 })
+
 // 当前的位置
 const curPosition = computed(() => {
   if (!curNode.value)
@@ -37,13 +40,25 @@ const curPosition = computed(() => {
       y: 99999,
     }
 
-  // 获取计算后的位置
+  // 节点计算后的位置
   const transFormedPosition = flowToScreenCoordinate(curNode.value.computedPosition)
 
   const gap = 4
 
-  let x = transFormedPosition.x + Number(curNode.value.width) + gap
-  let y = transFormedPosition.y
+  // 鼠标点击的位置
+  const event = isDoubleClick.value.event as MouseEvent
+  const clientX = event.clientX
+  const clientY = event.clientY
+
+  // 当前节点移动的位置
+  const movedPosition = {
+    x: transFormedPosition.x - whenOpenPositon.value.x,
+    y: transFormedPosition.y - whenOpenPositon.value.y,
+  }
+
+  // 结合打开时的位置和节点移动的位置 计算当前节点的位置
+  let x = clientX + movedPosition.x - gap
+  let y = clientY + movedPosition.y - gap
 
   // 获取当前视口的尺寸
   const { clientWidth, clientHeight } = document.documentElement
@@ -55,12 +70,22 @@ const curPosition = computed(() => {
   if (y + dialogHeight.value > clientHeight) {
     y = clientHeight - dialogHeight.value - gap
   }
+  // 如果当前节点的位置小于0，那么就将当前节点的位置设置为0
+  if (x < 0) {
+    x = gap
+  }
+  // 如果当前节点的位置小于0，那么就将当前节点的位置设置为0
+  if (y < 0) {
+    y = gap
+  }
 
   return { x, y }
 })
 
+// 初始的名称
 let beforeName = ''
 
+// 输入框名称
 const inputVal = ref(beforeName)
 
 const inputOk = async () => {
@@ -86,6 +111,10 @@ watch(isDoubleClick, async (val) => {
     inputRef.value?.focus()
     beforeName = val.node.data?.name || val.node.data?.label || ''
     inputVal.value = beforeName
+    whenOpenPositon.value = flowToScreenCoordinate({
+      x: val.node.computedPosition.x,
+      y: val.node.computedPosition.y,
+    })
   }
 })
 </script>
