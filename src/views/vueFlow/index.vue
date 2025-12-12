@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vueFlowEditor, baseCustomShape } from '@/package/index'
-import type { Node, Edge, GraphNode } from '@/package/index'
+import { vueFlowEditor, baseCustomShape, useVueFlow } from '@/package/index'
+import type { Node, Edge } from '@/package/index'
 import { useSidebar } from './hooks/useSidebar'
 import { customNodes } from './shape'
 import exampleData from './data/example.json'
@@ -31,13 +31,10 @@ const edges = ref<Edge[]>([
   },
 ])
 
-const vueFlowEditorRef = ref<InstanceType<typeof vueFlowEditor>>()
+const { getNodes, getEdges } = useVueFlow()
 
-const renameNode = (node: GraphNode) => {
-  console.log('renameNode', node)
-}
 const exportData = () => {
-  const data = vueFlowEditorRef.value.vueFlowInstance.nodes.value.map((item) => {
+  const nodes = getNodes.value.map((item) => {
     return {
       id: item.id,
       type: item.type,
@@ -48,13 +45,23 @@ const exportData = () => {
       height: item.dimensions.height,
     }
   })
-  console.log('JsonData ', data)
+  const edges = getEdges.value.map((item) => {
+    return {
+      id: item.id,
+      source: item.source,
+      target: item.target,
+      data: item.data,
+      style: item.style,
+      type: item.type,
+    }
+  })
+  console.log('JsonData ', nodes, edges)
 }
 </script>
 
 <template>
   <div class="vueFlowPlay">
-    <vueFlowEditor ref="vueFlowEditorRef" :customNodes="customNodes" @rename-node="renameNode" :sidebarData="sidebarData" :nodes="nodes" :edges="edges">
+    <vueFlowEditor :customNodes="customNodes" :sidebarData="sidebarData" :nodes="nodes" :edges="edges">
       <div class="panel">
         <t-button @click="exportData">导出数据</t-button>
       </div>
