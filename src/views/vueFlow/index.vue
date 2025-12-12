@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { vueFlowEditor, baseCustomShape, SidebarTreeType } from '@/package/index'
 import type { Node, Edge } from '@/package/index'
-// import 'vue-flow-editor/index.css'
 
 const sidebarData = ref<SidebarTreeType[]>([
   {

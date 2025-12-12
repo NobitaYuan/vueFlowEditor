@@ -1,11 +1,11 @@
 import { useVueFlow } from '@vue-flow/core'
 import type { GraphNode, Node } from '@vue-flow/core'
 import { SidebarTreeType } from '../type'
-import { uniqueId } from 'lodash'
 
 /**  A unique id. */
+let id = 0
 function getId() {
-  return uniqueId('dragAddNewNode_')
+  return 'dragAddNewNode_' + id++
 }
 
 /**
@@ -107,6 +107,7 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
         y: newNode.position.y - state.curParentNode.value.computedPosition.y,
       }
     }
+    console.log('newNode', newNode)
     /**
      * Align node position after drop, so it's centered to the mouse
      *

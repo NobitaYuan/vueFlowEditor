@@ -51,7 +51,7 @@ export default defineConfig((env: ConfigEnv) => {
       }),
       visualizer({
         filename: 'boundleView.html', //分析图生成的文件名
-        open: false, //如果存在本地服务端口，将在打包后自动展示
+        open: true, //如果存在本地服务端口，将在打包后自动展示
       }),
       dts({
         outDir: 'dist',
@@ -99,11 +99,9 @@ export default defineConfig((env: ConfigEnv) => {
       //打包后文件目录
       outDir: 'dist',
       //压缩
-      minify: false,
+      minify: true,
       rollupOptions: {
-        //忽略打包vue文件
-        // external: ['vue', '@vue-flow/core', 'tdesign-vue-next', 'tdesign-icons-vue-next'],
-        external: ['vue', 'tdesign-vue-next', 'tdesign-icons-vue-next'],
+        external: ['vue', 'tdesign-vue-next', 'tdesign-icons-vue-next', 'vue-i18n', 'axios'],
         //input: ["index.ts"],
         output: {
           entryFileNames: '[name].js',

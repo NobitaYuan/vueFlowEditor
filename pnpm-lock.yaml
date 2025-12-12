@@ -7,9 +7,6 @@ settings:
 importers:
   .:
     dependencies:
-      '@types/lodash':
-        specifier: ^4.17.21
-        version: 4.17.21
       '@vitejs/plugin-vue-jsx':
         specifier: ^5.1.1
         version: 5.1.1(rolldown-vite@7.2.5(@types/node@24.0.1)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.2)(terser@5.42.0)(yaml@2.8.0))(vue@3.5.16(typescript@5.8.3))
@@ -43,9 +40,6 @@ importers:
       commitizen:
         specifier: ^4.3.1
         version: 4.3.1(@types/node@24.0.1)(typescript@5.8.3)
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -73,9 +67,6 @@ importers:
       vue:
         specifier: ^3.5.16
         version: 3.5.16(typescript@5.8.3)
-      vue-flow-editor:
-        specifier: file:package\vue-flow-editor-1.0.0.tgz
-        version: file:package/vue-flow-editor-1.0.0.tgz(@types/node@24.0.1)(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(rolldown-vite@7.2.5(@types/node@24.0.1)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.2)(terser@5.42.0)(yaml@2.8.0))(typescript@5.8.3)
       vue-i18n:
         specifier: ^9.14.4
         version: 9.14.4(vue@3.5.16(typescript@5.8.3))
@@ -86,6 +77,9 @@ importers:
       '@eslint/js':
         specifier: ^9.28.0
         version: 9.28.0
+      '@types/lodash':
+        specifier: ^4.17.21
+        version: 4.17.21
       '@vitejs/plugin-vue':
         specifier: ^5.2.4
         version: 5.2.4(rolldown-vite@7.2.5(@types/node@24.0.1)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.2)(terser@5.42.0)(yaml@2.8.0))(vue@3.5.16(typescript@5.8.3))
@@ -4207,14 +4201,6 @@ packages:
     engines: { node: ^14.17.0 || >=16.0.0 }
     peerDependencies:
       eslint: '>=6.0.0'
-
-  vue-flow-editor@file:package/vue-flow-editor-1.0.0.tgz:
-    resolution:
-      {
-        integrity: sha512-OBCW1xW4iLykAqaz+mOxC0ate0f7LvwX2Au/FGbdgQ3XSflGB501SxakB2kKfe333uEcBue4qQxrBf0PcrCTmA==,
-        tarball: file:package/vue-flow-editor-1.0.0.tgz,
-      }
-    version: 1.0.0
 
   vue-i18n@9.14.4:
     resolution: { integrity: sha512-B934C8yUyWLT0EMud3DySrwSUJI7ZNiWYsEEz2gknTthqKiG4dzWE/WSa8AzCuSQzwBEv4HtG1jZDhgzPfWSKQ== }
@@ -8699,41 +8685,6 @@ snapshots:
       semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
-
-  vue-flow-editor@file:package/vue-flow-editor-1.0.0.tgz(@types/node@24.0.1)(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(rolldown-vite@7.2.5(@types/node@24.0.1)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.2)(terser@5.42.0)(yaml@2.8.0))(typescript@5.8.3):
-    dependencies:
-      '@types/lodash': 4.17.21
-      '@vitejs/plugin-vue-jsx': 5.1.1(rolldown-vite@7.2.5(@types/node@24.0.1)(esbuild@0.25.5)(jiti@2.4.2)(sass@1.89.2)(terser@5.42.0)(yaml@2.8.0))(vue@3.5.16(typescript@5.8.3))
-      '@vue-flow/background': 1.3.2(@vue-flow/core@1.48.0(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      '@vue-flow/controls': 1.1.3(@vue-flow/core@1.48.0(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      '@vue-flow/core': 1.48.0(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      '@vue-flow/minimap': 1.5.4(@vue-flow/core@1.48.0(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      '@vue-flow/node-resizer': 1.5.0(@vue-flow/core@1.48.0(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      '@vue-flow/node-toolbar': 1.1.1(@vue-flow/core@1.48.0(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      '@vueuse/core': 10.11.1(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
-      animate.css: 4.1.1
-      axios: 1.9.0
-      commitizen: 4.3.1(@types/node@24.0.1)(typescript@5.8.3)
-      lodash: 4.17.21
-      nprogress: 0.2.0
-      pinia: 2.3.1(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3))
-      pinia-plugin-persistedstate: 4.7.1(pinia@2.3.1(@vue/composition-api@1.7.2(vue@3.5.16(typescript@5.8.3)))(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))
-      sass: 1.89.2
-      tdesign-icons-vue-next: 0.4.1(vue@3.5.16(typescript@5.8.3))
-      tdesign-vue-next: 1.13.2(vue@3.5.16(typescript@5.8.3))
-      version-polling: 1.3.3
-      vue: 3.5.16(typescript@5.8.3)
-      vue-i18n: 9.14.4(vue@3.5.16(typescript@5.8.3))
-      vue-router: 4.5.1(vue@3.5.16(typescript@5.8.3))
-    transitivePeerDependencies:
-      - '@nuxt/kit'
-      - '@pinia/nuxt'
-      - '@types/node'
-      - '@vue/composition-api'
-      - debug
-      - supports-color
-      - typescript
-      - vite
 
   vue-i18n@9.14.4(vue@3.5.16(typescript@5.8.3)):
     dependencies:

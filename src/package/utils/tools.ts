@@ -1,4 +1,4 @@
-import { type Node } from 'vue-flow-editor'
+import { type Node } from '@vue-flow/core'
 
 /** 可折叠的组合输出 */
 export const groupLog = (msg: string, ...args: any[]) => {
@@ -39,13 +39,14 @@ export function checkMutualParent(nodes: Node[]) {
 
   // 输出结果
   if (hasMutualParent) {
-    console.log('存在两个节点的parentNode互为对方的id，节点信息：')
-    console.log('节点1：', mutualNodes[0])
-    console.log('节点2：', mutualNodes[1])
     // 移除两个节点的parentNode
     mutualNodes[0].parentNode = null
     mutualNodes[1].parentNode = null
+    console.groupCollapsed('存在两个节点的parentNode互为对方的id，节点信息：')
+    console.log('节点1：', mutualNodes[0])
+    console.log('节点2：', mutualNodes[1])
     console.log('已移除两个节点的parentNode，请重新设置')
+    console.groupEnd()
   }
   return nodes
 }

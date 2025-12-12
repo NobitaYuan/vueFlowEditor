@@ -25,3 +25,6 @@ dist-ssr
 auto-imports.d.ts
 components.d.ts
 .eslintrc-auto-import.json
+
+# 压缩包
+*.tgz
