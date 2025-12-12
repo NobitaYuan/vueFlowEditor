@@ -29,6 +29,7 @@ import { vueFlowEditorEmitType, vueFlowEditorProps } from './type'
 import contextmenu from './components/contextmenu.vue'
 import nameEditor from './shape/node/components/nameEditor.vue'
 import { useContextmenu } from './hooks/useContextmenu'
+import { checkMutualParent } from './utils'
 
 // Props
 const Props = withDefaults(defineProps<vueFlowEditorProps>(), {
@@ -66,7 +67,7 @@ const customEdges = computed(() => {
   return baseCustomEdges
 })
 
-const nodes = computed(() => Props.nodes)
+const nodes = computed(() => checkMutualParent(Props.nodes))
 const edges = computed(() => Props.edges)
 
 const { addNodes } = useVueFlow(vueFlowInstanceId)
@@ -110,7 +111,17 @@ defineExpose({
       <sidebar :data="Props.sidebarData" :vueFlowInstanceId="vueFlowInstanceId" />
     </div>
     <div class="vueFlowContainer" @drop="onDrop">
-      <VueFlow :id="vueFlowInstanceId" :nodes="nodes" :edges="edges" @dragover="onDragOver" @dragleave="onDragLeave" edgesUpdatable>
+      <VueFlow
+        :id="vueFlowInstanceId"
+        :min-zoom="0.1"
+        :max-zoom="10"
+        :nodes="nodes"
+        :edges="edges"
+        @dragover="onDragOver"
+        @dragleave="onDragLeave"
+        edgesUpdatable
+        v-bind="Props.flowProps"
+      >
         <!-- 自定义节点 -->
         <template v-for="item in allCustomNodes" #[item.name]="nodeProps" :key="item.name">
           <component :is="item.component" v-bind="nodeProps" :vueFlowInstanceId="vueFlowInstanceId" />

@@ -1,4 +1,4 @@
-import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge, NodeMouseEvent, EdgeMouseEvent } from '@vue-flow/core'
+import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge, NodeMouseEvent, EdgeMouseEvent, FlowProps } from '@vue-flow/core'
 import { Component } from 'vue'
 
 // 自定义节点和连线类型
@@ -34,6 +34,8 @@ export interface SidebarTreeType {
 
 /** vueFlowEditor Props组件参数 */
 export interface vueFlowEditorProps {
+  /** vueFlow参数 */
+  flowProps?: FlowProps
   /** vueFlow实例id */
   vueFlowInstanceId?: string
   /** 侧边栏数据 */
