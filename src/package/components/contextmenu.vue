@@ -44,8 +44,8 @@ const closeFn = () => {
           v-for="(item, index) in Props.menuList"
           :key="index"
           @click="
-            () => {
-              item.onClick()
+            async () => {
+              await item.onClick()
               closeFn()
             }
           "

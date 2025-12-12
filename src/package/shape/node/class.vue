@@ -2,24 +2,19 @@
 import { NodeProps } from '@vue-flow/core'
 import baseNode from './baseNode.vue'
 import { nodeDataType } from '../../type'
-import nameEditor from './components/nameEditor.vue'
 
 interface IProps extends NodeProps {
   data: nodeDataType
 }
 const Props = withDefaults(defineProps<IProps>(), {})
+
+const name = computed(() => Props.data?.name || Props.data?.label || '')
 </script>
 
 <template>
   <baseNode v-bind="Props" :defaultLabel="false">
     <div class="classNode">
-      <div class="hd">
-        《
-        <div>
-          <nameEditor v-bind="Props" />
-        </div>
-        》
-      </div>
+      <div class="hd">《{{ name }}》</div>
       <div class="bd"></div>
     </div>
   </baseNode>

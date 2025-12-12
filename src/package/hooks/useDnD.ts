@@ -102,6 +102,7 @@ export function useDragAndDrop(vueFlowInstanceId: string, afterAdd?: (node: Grap
     if (state.curParentNode.value) {
       newNode.parentNode = state.curParentNode.value.id
       newNode.position = {
+        // 这里是拿当前节点的位置减去父节点的位置，算出相对于父节点的位置
         x: newNode.position.x - state.curParentNode.value.computedPosition.x,
         y: newNode.position.y - state.curParentNode.value.computedPosition.y,
       }

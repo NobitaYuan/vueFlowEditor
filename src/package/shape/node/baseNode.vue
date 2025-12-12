@@ -35,6 +35,8 @@ const Props = withDefaults(defineProps<IProps>(), {
 
 const { isMouseOnNode } = useVueFlowGlobal()
 
+const name = computed(() => Props.data?.name || Props.data?.label || '')
+
 // 是否鼠标悬浮
 const isHovered = computed(() => {
   if (!isMouseOnNode.value) return false
@@ -55,7 +57,7 @@ const isResizerShow = computed(() => {
 <template>
   <div class="baseNode">
     <div class="mt-[10px] text-center" v-if="defaultLabel">
-      <nameEditor v-bind="Props" />
+      {{ name }}
     </div>
     <slot></slot>
 
