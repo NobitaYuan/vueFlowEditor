@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { vueFlowEditor, baseCustomShape, useVueFlow } from '@/package/index'
-import type { Node, Edge } from '@/package/index'
+import { vueFlowEditor, baseCustomShape, useVueFlow, MarkerType } from '@/package/index'
+import type { Node, Edge, ConnectionLineType } from '@/package/index'
 import { useSidebar } from './hooks/useSidebar'
 import { customNodes } from './shape'
 import exampleData from './data/example.json'
@@ -61,7 +61,21 @@ const exportData = () => {
 
 <template>
   <div class="vueFlowPlay">
-    <vueFlowEditor :customNodes="customNodes" :sidebarData="sidebarData" :nodes="nodes" :edges="edges">
+    <vueFlowEditor
+      :customNodes="customNodes"
+      :sidebarData="sidebarData"
+      :nodes="nodes"
+      :edges="edges"
+      :flowProps="{
+        connectionLineOptions: {
+          type: 'smoothstep' as ConnectionLineType,
+          markerEnd: MarkerType.Arrow,
+          style: {
+            strokeWidth: 2,
+          },
+        },
+      }"
+    >
       <div class="panel">
         <t-button @click="exportData">导出数据</t-button>
       </div>

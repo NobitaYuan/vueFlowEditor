@@ -27,7 +27,8 @@ import { baseCustomShape } from './shape'
 import sidebar from './components/sidebar.vue'
 import { vueFlowEditorEmitType, vueFlowEditorProps } from './type'
 import contextmenu from './components/contextmenu.vue'
-import nameEditor from './shape/node/components/nameEditor.vue'
+import nodeNameEditor from './shape/node/components/nodeNameEditor.vue'
+import edgeNameEditor from './shape/node/components/edgeNameEditor.vue'
 import { useContextmenu } from './hooks/useContextmenu'
 import { checkMutualParent } from './utils'
 
@@ -149,7 +150,8 @@ defineExpose({
         </slot>
       </VueFlow>
       <contextmenu v-model="popupShow" :position="popupPosition" :menuList="menuList" />
-      <nameEditor />
+      <nodeNameEditor />
+      <edgeNameEditor />
     </div>
   </div>
 </template>

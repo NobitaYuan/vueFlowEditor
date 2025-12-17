@@ -1,4 +1,4 @@
-import { Node, Edge, ElementData, Styles, GraphNode, GraphEdge, NodeMouseEvent, EdgeMouseEvent, FlowProps } from '@vue-flow/core'
+import { Node, Edge, Styles, GraphNode, GraphEdge, NodeMouseEvent, EdgeMouseEvent, FlowProps } from '@vue-flow/core'
 import { Component } from 'vue'
 
 // 自定义节点和连线类型
@@ -8,9 +8,9 @@ export interface CustomShapeType {
 }
 
 // 节点的业务数据类型
-export interface nodeDataType extends ElementData {
+export type nodeDataType<T = Record<string, any>> = {
   name: string
-}
+} & T
 
 // 左侧侧边栏树组件
 export interface SidebarTreeType {

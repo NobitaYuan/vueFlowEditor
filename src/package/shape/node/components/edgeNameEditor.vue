@@ -7,11 +7,9 @@ interface IProps {
 }
 const Props = withDefaults(defineProps<IProps>(), {})
 
-const { flowToScreenCoordinate } = useVueFlow(Props.vueFlowInstanceId)
+const { isEdgeDoubleClick } = useVueFlowGlobal()
 
-const { isDoubleClick } = useVueFlowGlobal()
-
-const { updateNodeData, emits } = useVueFlow(Props.vueFlowInstanceId)
+const { updateEdgeData, emits, findEdge } = useVueFlow(Props.vueFlowInstanceId)
 
 // 窗体的宽度
 const dialogWidth = ref(200)
@@ -20,45 +18,33 @@ const dialogHeight = ref(120)
 
 // 是否显示
 const isShow = computed(() => {
-  return Boolean(isDoubleClick.value)
+  return Boolean(isEdgeDoubleClick.value)
 })
 
 // 当前的节点
-const curNode = computed(() => {
-  if (!isDoubleClick.value?.node) return null
-  return isDoubleClick.value?.node
+const curEdge = computed(() => {
+  if (!isEdgeDoubleClick.value?.edge) return null
+  return isEdgeDoubleClick.value?.edge
 })
-
-// 打开节点时的位置
-const whenOpenPositon = ref({ x: 0, y: 0 })
 
 // 当前的位置
 const curPosition = computed(() => {
-  if (!curNode.value)
+  if (!curEdge.value)
     return {
       x: 99999,
       y: 99999,
     }
 
-  // 节点计算后的位置
-  const transFormedPosition = flowToScreenCoordinate(curNode.value.computedPosition)
-
   const gap = 4
 
   // 鼠标点击的位置
-  const event = isDoubleClick.value.event as MouseEvent
+  const event = isEdgeDoubleClick.value.event as MouseEvent
   const clientX = event.clientX
   const clientY = event.clientY
 
-  // 当前节点移动的位置
-  const movedPosition = {
-    x: transFormedPosition.x - whenOpenPositon.value.x,
-    y: transFormedPosition.y - whenOpenPositon.value.y,
-  }
-
   // 结合打开时的位置和节点移动的位置 计算当前节点的位置
-  let x = clientX + movedPosition.x - gap
-  let y = clientY + movedPosition.y - gap
+  let x = clientX - gap
+  let y = clientY - gap
 
   // 获取当前视口的尺寸
   const { clientWidth, clientHeight } = document.documentElement
@@ -90,31 +76,30 @@ const inputVal = ref(beforeName)
 
 const inputOk = async () => {
   if (inputVal.value === beforeName) return
-  updateNodeData(curNode.value.id, {
+  updateEdgeData(curEdge.value.id, {
     name: inputVal.value,
   })
+  const edge = findEdge(curEdge.value.id)
+  edge.label = inputVal.value
+
   await nextTick()
   // @ts-ignore 自定义名称修改事件
-  emits.nodesChange([{ type: 'renameNode', node: curNode.value }])
-  isDoubleClick.value = null
+  emits.edgesChange([{ type: 'renameEdge', edge: curEdge.value }])
+  isEdgeDoubleClick.value = null
 }
 const inputNo = () => {
-  isDoubleClick.value = null
+  isEdgeDoubleClick.value = null
   if (inputVal.value === beforeName) return
   inputVal.value = beforeName
 }
 
 const inputRef = ref<HTMLElement>()
-watch(isDoubleClick, async (val) => {
+watch(isEdgeDoubleClick, async (val) => {
   if (val) {
     await nextTick()
     inputRef.value?.focus()
-    beforeName = val.node.data?.name || val.node.data?.label || ''
+    beforeName = val.edge.data?.name || val.edge.data?.label || ''
     inputVal.value = beforeName
-    whenOpenPositon.value = flowToScreenCoordinate({
-      x: val.node.computedPosition.x,
-      y: val.node.computedPosition.y,
-    })
   }
 })
 </script>

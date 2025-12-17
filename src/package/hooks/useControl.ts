@@ -5,6 +5,7 @@ import { useDropToParent } from './useDropToParent'
 import { groupLog } from '../utils'
 import { useVueFlowGlobal } from './useGlobal'
 import { useDragAndDrop } from './useDnD'
+import { baseCustomShape } from '../shape'
 
 /** 一些事件的控制全部统一放置在这里 */
 export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFlowEditorEmitType>) => {
@@ -32,10 +33,12 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     findNode,
     findEdge,
     onNodeDoubleClick,
+    onEdgeDoubleClick,
+    connectionLineOptions,
   } = useVueFlow(vueFlowInstanceId)
 
   // 一些全局的状态
-  const { isMouseOnNode, isConnecting, isDoubleClick } = useVueFlowGlobal()
+  const { isMouseOnNode, isConnecting, isNodeDoubleClick, isEdgeDoubleClick } = useVueFlowGlobal()
   onNodeMouseEnter((params) => {
     isMouseOnNode.value = params
   })
@@ -49,7 +52,10 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
     isConnecting.value = null
   })
   onNodeDoubleClick((params) => {
-    isDoubleClick.value = params
+    isNodeDoubleClick.value = params
+  })
+  onEdgeDoubleClick((params) => {
+    isEdgeDoubleClick.value = params
   })
 
   // 开启 父子级拖拽 功能
@@ -102,11 +108,23 @@ export const useControl = (vueFlowInstanceId: string, Emit: emitRetuenType<vueFl
   onEdgesChange((edgeChanges) => {
     edgeChanges.forEach((change) => {
       if (change.type === 'add') {
-        emit('addEdge', findEdge(change.item.id))
+        const edge = findEdge(change.item.id)
+        // 赋值认连线样式
+        Object.assign(edge, {
+          // 这里提供一个默认的连线type
+          type: baseCustomShape.baseEdge,
+          ...connectionLineOptions.value,
+        })
+        emit('addEdge', edge)
       } else if (change.type === 'remove') {
         // emit('removeEdge', findEdge(change.id))
       } else if (change.type === 'select') {
         emit('selectEdge', findEdge(change.id))
+      }
+      // @ts-ignore 自定义的重命名事件
+      else if (change.type === 'renameEdge') {
+        // @ts-ignore
+        emit('renameEdge', change.edge)
       }
     })
   })
