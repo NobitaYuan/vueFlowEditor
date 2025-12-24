@@ -12,6 +12,8 @@ interface IProps extends NodeProps {
   data: nodeDataType
   defaultLabel?: boolean
   vueFlowInstanceId?: string
+  isShowNodeResizer?: boolean
+  isShowHandle?: boolean
 }
 const Props = withDefaults(defineProps<IProps>(), {
   defaultLabel: true,
@@ -19,6 +21,8 @@ const Props = withDefaults(defineProps<IProps>(), {
     width: 100,
     height: 100,
   }),
+  isShowNodeResizer: true,
+  isShowHandle: true,
 })
 
 // console.log('Props', Props)
@@ -44,12 +48,12 @@ const isHovered = computed(() => {
 
 // 是否显示连接点
 const isHandelShow = computed(() => {
-  return Boolean(Props.selected || isHovered.value)
+  return Props.isShowHandle && Boolean(Props.selected || isHovered.value)
 })
 
 // 是否显示尺寸调整器
 const isResizerShow = computed(() => {
-  return Props.selected || isHovered.value
+  return Props.isShowNodeResizer && (Props.selected || isHovered.value)
 })
 </script>
 

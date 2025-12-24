@@ -77,7 +77,6 @@ onMounted(() => {
 <template>
   <!-- You can use the `BaseEdge` component to create your own custom edge more easily -->
   <BaseEdge ref="edgeRef" :path="path[0]" v-bind="Props" />
-
   <!-- Use the `EdgeLabelRenderer` to escape the SVG world of edges and render your own custom label in a `<div>` ctx -->
   <EdgeLabelRenderer>
     <div

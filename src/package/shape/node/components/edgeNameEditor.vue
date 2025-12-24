@@ -151,7 +151,7 @@ watch(isEdgeDoubleClick, async (val) => {
   --animate-duration: 0.15s;
 }
 .nameEditor {
-  position: absolute;
+  position: fixed;
 
   .editName {
     width: 100%;

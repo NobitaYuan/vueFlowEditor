@@ -6,4 +6,5 @@ export enum baseCustomShape {
 
   // 连线
   baseEdge = 'baseEdge',
+  animationEdge = 'animationEdge',
 }

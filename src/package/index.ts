@@ -3,6 +3,7 @@ import baseNodeTemplate from './shape/node/baseNode.vue'
 import baseEdgeTemplate from './shape/edge/baseEdge.vue'
 // 编辑器组件
 import vueFlowEditor from './index.vue'
+import { useVueFlowGlobal } from './hooks'
 
 export * from '@vue-flow/core'
 export * from './shape/index'
@@ -12,3 +13,4 @@ export * from './type'
 export { baseNodeTemplate }
 export { baseEdgeTemplate }
 export { vueFlowEditor }
+export { useVueFlowGlobal }

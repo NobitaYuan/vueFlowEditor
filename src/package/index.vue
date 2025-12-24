@@ -18,8 +18,9 @@ import { MiniMap } from '@vue-flow/minimap'
 
 // 自定义节点连线组件
 import baseNode from './shape/node/baseNode.vue'
-import baseEdge from './shape/edge/baseEdge.vue'
 import ClassNode from './shape/node/class.vue'
+import baseEdge from './shape/edge/baseEdge.vue'
+import animationEdge from './shape/edge/animationEdge.vue'
 
 // 扩展逻辑
 import { useControl } from './hooks'
@@ -62,7 +63,11 @@ const allCustomNodes = computed(() => {
 
 // 自定义连线
 const customEdges = computed(() => {
-  const baseCustomEdges = [{ name: baseCustomShape.baseEdge, component: markRaw(baseEdge) }, ...Props.customEdges]
+  const baseCustomEdges = [
+    { name: baseCustomShape.baseEdge, component: markRaw(baseEdge) },
+    { name: baseCustomShape.animationEdge, component: markRaw(animationEdge) },
+    ...Props.customEdges,
+  ]
     // 这里是处理一下name
     .map((item) => ({ ...item, name: 'edge-' + item.name }))
   return baseCustomEdges
