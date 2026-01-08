@@ -64,6 +64,7 @@ export interface vueFlowEditorEmitType {
   resizeNode: [node: GraphNode]
   selectNode: [node: GraphNode]
   renameNode: [node: GraphNode]
+  updateNodeZIndex: [node: GraphNode]
 
   dropIn: [node: dropInOutNodeType]
   dropOut: [node: dropInOutNodeType]
@@ -73,6 +74,7 @@ export interface vueFlowEditorEmitType {
   selectEdge: [edge: GraphEdge]
   reconnectEdge: [edge: false | GraphEdge]
   renameEdge: [edge: GraphEdge]
+  updateEdgeZIndex: [edge: GraphEdge]
 }
 export interface dropInOutNodeType {
   node: GraphNode
@@ -82,5 +84,6 @@ export interface dropInOutNodeType {
 /** 右键菜单项 */
 export interface contextmenuItem {
   name: string
+  disabled?: boolean
   onClick: () => void
 }

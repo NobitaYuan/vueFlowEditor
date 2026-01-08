@@ -43,6 +43,7 @@ const closeFn = () => {
           class="item"
           v-for="(item, index) in Props.menuList"
           :key="index"
+          :class="{ disabled: item.disabled }"
           @click="
             async () => {
               await item.onClick()
@@ -82,8 +83,14 @@ const closeFn = () => {
       cursor: pointer;
       font-size: 14px;
       line-height: 22px;
+      user-select: none;
       &:hover {
         background: var(--td-bg-color-container-hover);
+      }
+      &.disabled {
+        color: var(--td-text-color-disabled);
+        cursor: not-allowed;
+        pointer-events: none;
       }
     }
   }

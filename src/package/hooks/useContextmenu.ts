@@ -31,6 +31,29 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
           emit('removeNode', node)
         },
       },
+      {
+        name: '上移一层',
+        onClick: () => {
+          if (node.zIndex) {
+            node.zIndex = node.zIndex + 1
+          } else {
+            node.zIndex = 1
+          }
+          emit('updateNodeZIndex', node)
+        },
+      },
+      {
+        name: '下移一层',
+        disabled: !node.zIndex,
+        onClick: () => {
+          if (node.zIndex) {
+            node.zIndex = node.zIndex - 1
+          } else {
+            node.zIndex = 1
+          }
+          emit('updateNodeZIndex', node)
+        },
+      },
     ]
     let show
     if (Props.onNodeContextmenu) {
@@ -53,6 +76,29 @@ export const useContextmenu = (vueFlowInstanceId: string, Props: vueFlowEditorPr
         onClick: () => {
           removeEdges([edge])
           emit('removeEdge', edge)
+        },
+      },
+      {
+        name: '上移一层',
+        onClick: () => {
+          if (edge.zIndex) {
+            edge.zIndex = edge.zIndex + 1
+          } else {
+            edge.zIndex = 1
+          }
+          emit('updateEdgeZIndex', edge)
+        },
+      },
+      {
+        name: '下移一层',
+        disabled: !edge.zIndex,
+        onClick: () => {
+          if (edge.zIndex) {
+            edge.zIndex = edge.zIndex - 1
+          } else {
+            edge.zIndex = 1
+          }
+          emit('updateEdgeZIndex', edge)
         },
       },
     ]

@@ -68,7 +68,7 @@ const exportData = () => {
       :edges="edges"
       :flowProps="{
         connectionLineOptions: {
-          type: baseCustomShape.animationEdge as unknown as ConnectionLineType,
+          // type: baseCustomShape.animationEdge as unknown as ConnectionLineType,
           markerEnd: MarkerType.Arrow,
           style: {
             strokeWidth: 2,
