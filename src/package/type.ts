@@ -35,6 +35,12 @@ export interface SidebarTreeType {
 
 /** vueFlowEditor Props组件参数 */
 export interface vueFlowEditorProps {
+  /** 侧边栏 */
+  showSidebar?: boolean
+  /** 小地图 */
+  showMiniMap?: boolean
+  /** 工具栏 */
+  showToolbar?: boolean
   /** vueFlow参数 */
   flowProps?: FlowProps
   /** vueFlow实例id */

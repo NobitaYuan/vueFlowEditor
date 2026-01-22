@@ -174,30 +174,32 @@ watch(isNodeDoubleClick, async (val) => {
     display: flex;
     align-items: center;
     flex-direction: column;
-    border: 1px solid var(--td-text-color-primary);
-    background-color: var(--td-bg-color-container);
-    gap: 2px;
-    box-shadow: 4px 0 10px 2px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
+    // border: 1px solid var(--td-text-color-placeholder);
+    // gap: 2px;
     overflow: hidden;
+    background: var(--td-bg-color-container);
+    box-shadow: var(--td-shadow-2), var(--td-shadow-inset-top), var(--td-shadow-inset-right), var(--td-shadow-inset-bottom), var(--td-shadow-inset-left);
+    border-radius: var(--td-radius-medium);
+    padding: 8px;
+    color: var(--td-text-color-primary);
 
     .nameInput {
-      border-bottom: 1px solid var(--td-text-color-primary);
+      border-bottom: 1px solid var(--td-text-color-placeholder);
       background-color: var(--td-bg-color-container);
-      outline: none;
+      // outline: none;
       width: 100%;
       height: 100%;
-      text-align: center;
       padding: 8px 4px;
       color: var(--td-text-color-primary);
+      text-align: center;
       flex: 1;
     }
     .btns {
       width: 100%;
       display: flex;
-      gap: 2px;
       justify-content: space-between;
-      padding: 4px 8px;
+      padding: 4px;
+      padding-bottom: 0px;
       .gou {
         width: 24px;
         flex-shrink: 0;

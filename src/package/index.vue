@@ -41,6 +41,9 @@ const Props = withDefaults(defineProps<vueFlowEditorProps>(), {
   edges: () => [],
   customNodes: () => [],
   customEdges: () => [],
+  showSidebar: true,
+  showMiniMap: true,
+  showToolbar: true,
 })
 
 // emit
@@ -113,7 +116,7 @@ defineExpose({
 
 <template>
   <div class="vueFlow">
-    <div class="sidebarContainer">
+    <div class="sidebarContainer" v-if="Props.showSidebar">
       <sidebar :data="Props.sidebarData" :vueFlowInstanceId="vueFlowInstanceId" />
     </div>
     <div class="vueFlowContainer" @drop="onDrop">
@@ -140,9 +143,9 @@ defineExpose({
         <!-- 背景 -->
         <Background pattern-color="#aaa" :gap="8" />
         <!-- 缩略图 -->
-        <MiniMap :width="180" :height="120" :position="PanelPosition.TopRight" pannable zoomable />
+        <MiniMap v-if="Props.showMiniMap" :width="180" :height="120" :position="PanelPosition.TopRight" pannable zoomable />
         <!-- 控件 -->
-        <Controls :position="PanelPosition.TopLeft" />
+        <Controls v-if="Props.showToolbar" :position="PanelPosition.TopLeft" />
         <!-- 辅助线 -->
         <!-- <helperLines :horizontal="helperLineHorizontal" :vertical="helperLineVertical" :vueFlowInstanceId="vueFlowInstanceId" /> -->
 
@@ -154,7 +157,9 @@ defineExpose({
           </Panel>
         </slot>
       </VueFlow>
+      <!-- 右键菜单 -->
       <contextmenu v-model="popupShow" :position="popupPosition" :menuList="menuList" />
+      <!-- 重命名编辑器 -->
       <nodeNameEditor />
       <edgeNameEditor />
     </div>

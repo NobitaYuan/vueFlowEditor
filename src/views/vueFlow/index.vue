@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { vueFlowEditor, baseCustomShape, useVueFlow, MarkerType } from '@/package/index'
-import type { Node, Edge, ConnectionLineType } from '@/package/index'
+import type { Node, Edge } from '@/package/index'
 import { useSidebar } from './hooks/useSidebar'
 import { customNodes } from './shape'
 import exampleData from './data/example.json'
