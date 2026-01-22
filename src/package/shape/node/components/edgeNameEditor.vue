@@ -171,13 +171,18 @@ watch(isEdgeDoubleClick, async (val) => {
     .nameInput {
       border-bottom: 1px solid var(--td-text-color-placeholder);
       background-color: var(--td-bg-color-container);
-      // outline: none;
+      border-radius: 4px;
       width: 100%;
       height: 100%;
       padding: 8px 4px;
       color: var(--td-text-color-primary);
       text-align: center;
       flex: 1;
+      outline: none;
+      &:focus {
+        outline: 1px solid var(--td-text-color-placeholder);
+        border-bottom: unset;
+      }
     }
     .btns {
       width: 100%;

@@ -28,3 +28,5 @@ components.d.ts
 
 # 压缩包
 *.tgz
+
+boundleView.html
