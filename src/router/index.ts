@@ -9,7 +9,8 @@ const routes: RouteRecordRaw[] = [
     path: '/index',
     name: 'index',
     meta: { title: 'Taco' },
-    component: () => import('@/views/index/index.vue'),
+    redirect: '/vueFlow',
+    // component: () => import('@/views/index/index.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
