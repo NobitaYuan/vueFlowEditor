@@ -1,0 +1,135 @@
+[
+  {
+    "id": "dragAddNewNode_0",
+    "type": "event_start",
+    "position": {
+      "x": 275.9683232914678,
+      "y": 301.0014928880872
+    },
+    "data": {
+      "name": "开始事件"
+    },
+    "width": 50,
+    "height": 50
+  },
+  {
+    "id": "dragAddNewNode_4",
+    "type": "task_user",
+    "position": {
+      "x": 457.24348933926007,
+      "y": 83.47658511095631
+    },
+    "data": {
+      "name": "用户任务"
+    },
+    "width": 200,
+    "height": 100
+  },
+  {
+    "id": "dragAddNewNode_5",
+    "type": "task_http",
+    "position": {
+      "x": 179.77228310808766,
+      "y": 165.8912664726069
+    },
+    "data": {
+      "name": "Http任务"
+    },
+    "style": {
+      "width": "181px",
+      "height": "78px"
+    },
+    "width": 181,
+    "height": 78,
+    "parentNode": "dragAddNewNode_16"
+  },
+  {
+    "id": "dragAddNewNode_6",
+    "type": "task_aip",
+    "position": {
+      "x": 187.35222094315606,
+      "y": 25.62740170803127
+    },
+    "data": {
+      "name": "AIP任务"
+    },
+    "style": {
+      "width": "166px",
+      "height": "76px"
+    },
+    "width": 166,
+    "height": 76,
+    "parentNode": "dragAddNewNode_16"
+  },
+  {
+    "id": "dragAddNewNode_14",
+    "type": "event_end",
+    "position": {
+      "x": 420.4232053984866,
+      "y": 180.25645279883037
+    },
+    "data": {
+      "name": "结束事件"
+    },
+    "width": 50,
+    "height": 50,
+    "parentNode": "dragAddNewNode_16"
+  },
+  {
+    "id": "dragAddNewNode_16",
+    "type": "sub_process_embedded",
+    "position": {
+      "x": 457.81684796570636,
+      "y": 267.93831691244424
+    },
+    "data": {
+      "name": ""
+    },
+    "style": {
+      "width": "543px",
+      "height": "286px"
+    },
+    "width": 543,
+    "height": 286
+  },
+  {
+    "id": "dragAddNewNode_1",
+    "type": "event_start",
+    "position": {
+      "x": 20.988626560885123,
+      "y": 38.745020804267426
+    },
+    "data": {
+      "name": "开始事件"
+    },
+    "width": 50,
+    "height": 50,
+    "parentNode": "dragAddNewNode_16"
+  },
+  {
+    "id": "dragAddNewNode_3",
+    "type": "event_end",
+    "position": {
+      "x": 704.5482425888149,
+      "y": 659.9874774144993
+    },
+    "data": {
+      "name": "结束事件"
+    },
+    "width": 50,
+    "height": 50
+  },
+  {
+    "id": "dragAddNewNode_7",
+    "type": "task_script",
+    "position": {
+      "x": 807.5964876133551,
+      "y": 84.6252834659532
+    },
+    "data": {
+      "name": "脚本任务"
+    },
+    "width": 200,
+    "height": 100
+  }
+]

@@ -4,6 +4,7 @@
 
 <p align="center">
   基于 VueFlow 构建的图编辑器，支持自定义节点、连线、拖拽创建、父子嵌套等丰富功能
+  <img src="./example.png" alt="example" width="100%">
 </p>
 
 ## 📖 目录

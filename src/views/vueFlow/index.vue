@@ -3,33 +3,12 @@ import { vueFlowEditor, baseCustomShape, useVueFlow, MarkerType } from '@/packag
 import type { Node, Edge } from '@/package/index'
 import { useSidebar } from './hooks/useSidebar'
 import { customNodes } from './shape'
-import exampleData from './data/example.json'
+import nodesExample from './data/nodes.json'
+import edgesExample from './data/edges.json'
 const { sidebarData } = useSidebar()
 
-const nodes = ref<Node[]>(exampleData)
-const edges = ref<Edge[]>([
-  {
-    id: 'e1->2',
-    source: '1',
-    target: '2',
-  },
-  {
-    id: 'e2->3',
-    source: '1-1',
-    target: '1-2',
-    zIndex: 999,
-    animated: true,
-  },
-  {
-    id: 'e3->4',
-    type: baseCustomShape.baseEdge,
-    source: '3',
-    target: '4',
-    data: {
-      name: 'world',
-    },
-  },
-])
+const nodes = ref<Node[]>(nodesExample)
+const edges = ref<Edge[]>(edgesExample)
 
 const { getNodes, getEdges } = useVueFlow()
 
@@ -43,6 +22,7 @@ const exportData = () => {
       style: item.style,
       width: item.dimensions.width,
       height: item.dimensions.height,
+      parentNode: item.parentNode,
     }
   })
   const edges = getEdges.value.map((item) => {
@@ -53,6 +33,10 @@ const exportData = () => {
       data: item.data,
       style: item.style,
       type: item.type,
+      sourceHandle: item.sourceHandle,
+      targetHandle: item.targetHandle,
+      markerStart: item.markerStart,
+      markerEnd: 'arrow',
     }
   })
   console.log('JsonData ', nodes, edges)

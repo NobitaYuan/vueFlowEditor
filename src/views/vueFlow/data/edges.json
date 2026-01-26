@@ -1,0 +1,101 @@
+[
+  {
+    "id": "vueflow__edge-dragAddNewNode_1right-dragAddNewNode_6left",
+    "source": "dragAddNewNode_1",
+    "target": "dragAddNewNode_6",
+    "data": {},
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "right",
+    "targetHandle": "left",
+    "markerEnd": "arrow"
+  },
+  {
+    "id": "vueflow__edge-dragAddNewNode_5right-dragAddNewNode_14left",
+    "source": "dragAddNewNode_5",
+    "target": "dragAddNewNode_14",
+    "data": {},
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "right",
+    "targetHandle": "left",
+    "markerEnd": "arrow"
+  },
+  {
+    "id": "vueflow__edge-dragAddNewNode_6bottom-dragAddNewNode_5top",
+    "source": "dragAddNewNode_6",
+    "target": "dragAddNewNode_5",
+    "data": {},
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "bottom",
+    "targetHandle": "top",
+    "markerEnd": "arrow"
+  },
+  {
+    "id": "vueflow__edge-dragAddNewNode_0top-dragAddNewNode_4left",
+    "source": "dragAddNewNode_0",
+    "target": "dragAddNewNode_4",
+    "data": {
+      "name": "事件开始"
+    },
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "top",
+    "targetHandle": "left",
+    "markerEnd": "arrow"
+  },
+  {
+    "id": "vueflow__edge-dragAddNewNode_7bottom-dragAddNewNode_16top",
+    "source": "dragAddNewNode_7",
+    "target": "dragAddNewNode_16",
+    "data": {
+      "name": "脚本触发"
+    },
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "bottom",
+    "targetHandle": "top",
+    "markerEnd": "arrow"
+  },
+  {
+    "id": "vueflow__edge-dragAddNewNode_4right-dragAddNewNode_7left",
+    "source": "dragAddNewNode_4",
+    "target": "dragAddNewNode_7",
+    "data": {
+      "name": "用户触发"
+    },
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "right",
+    "targetHandle": "left",
+    "markerEnd": "arrow"
+  },
+  {
+    "id": "vueflow__edge-dragAddNewNode_16bottom-dragAddNewNode_3top",
+    "source": "dragAddNewNode_16",
+    "target": "dragAddNewNode_3",
+    "data": {
+      "name": "任务完成"
+    },
+    "style": {
+      "strokeWidth": 2
+    },
+    "type": "baseEdge",
+    "sourceHandle": "bottom",
+    "targetHandle": "top",
+    "markerEnd": "arrow"
+  }
+]
