@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { vueFlowEditor, baseCustomShape, useVueFlow, MarkerType } from '@/package/index'
+import { vueFlowEditor, useVueFlow, MarkerType } from '@/package/index'
 import type { Node, Edge } from '@/package/index'
 import { useSidebar } from './hooks/useSidebar'
 import { customNodes } from './shape'
@@ -23,6 +23,7 @@ const exportData = () => {
       width: item.dimensions.width,
       height: item.dimensions.height,
       parentNode: item.parentNode,
+      zIndex: item.zIndex,
     }
   })
   const edges = getEdges.value.map((item) => {
@@ -37,9 +38,10 @@ const exportData = () => {
       targetHandle: item.targetHandle,
       markerStart: item.markerStart,
       markerEnd: 'arrow',
+      zIndex: item.zIndex,
     }
   })
-  console.log('JsonData ', nodes, edges)
+  console.log('nodes：', nodes, 'edges：', edges)
 }
 </script>
 

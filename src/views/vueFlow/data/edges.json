@@ -10,7 +10,8 @@
     "type": "baseEdge",
     "sourceHandle": "right",
     "targetHandle": "left",
-    "markerEnd": "arrow"
+    "markerEnd": "arrow",
+    "zIndex": 1
   },
   {
     "id": "vueflow__edge-dragAddNewNode_5right-dragAddNewNode_14left",
@@ -23,7 +24,8 @@
     "type": "baseEdge",
     "sourceHandle": "right",
     "targetHandle": "left",
-    "markerEnd": "arrow"
+    "markerEnd": "arrow",
+    "zIndex": 1
   },
   {
     "id": "vueflow__edge-dragAddNewNode_6bottom-dragAddNewNode_5top",
@@ -36,7 +38,8 @@
     "type": "baseEdge",
     "sourceHandle": "bottom",
     "targetHandle": "top",
-    "markerEnd": "arrow"
+    "markerEnd": "arrow",
+    "zIndex": 1
   },
   {
     "id": "vueflow__edge-dragAddNewNode_0top-dragAddNewNode_4left",
