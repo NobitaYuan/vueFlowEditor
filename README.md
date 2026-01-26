@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  基于 VueFlow 构建的强大流程图编辑器，支持自定义节点、连线、拖拽创建、父子嵌套等丰富功能
+  基于 VueFlow 构建的图编辑器，支持自定义节点、连线、拖拽创建、父子嵌套等丰富功能
 </p>
 
 ## 📖 目录
@@ -178,18 +178,9 @@ npm publish
 - **TDesign Vue Next**：腾讯开源的企业级 UI 组件库
 - **tdesign-icons-vue-next**：TDesign 图标库
 
-### 状态管理
-
-- **Pinia**：Vue 3 官方推荐的状态管理方案
-- **pinia-plugin-persistedstate**：状态持久化
-
 ### 工具库
 
 - **@vueuse/core**：Vue Composition API 工具集
-- **vue-router**：路由管理
-- **vue-i18n**：国际化支持
-- **axios**：HTTP 请求
-- **dayjs**：日期处理
 
 ### 开发工具
 
